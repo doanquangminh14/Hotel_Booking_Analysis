@@ -18,4 +18,6 @@ Dự án phân tích dữ liệu đặt phòng khách sạn (**Hotel Booking Dem
 | [`src/extract.py`](src/extract.py) | Module Python trích xuất và nạp dữ liệu tự động cho toàn bộ dự án. |
 | [`src/transform.py`](src/transform.py) | Module Python làm sạch và chuẩn hóa dữ liệu (Data Cleaning & Preprocessing). |
 | [`src/eda.py`](src/eda.py) | Module Python tự động tạo 8 biểu đồ trực quan hóa giải quyết các bài toán kinh doanh thực tế. |
+| [`src/ml.py`](src/ml.py) | Module Python huấn luyện mô hình Machine Learning Phân cụm khách hàng (Clustering Pipeline) và xuất biểu đồ đánh giá. |
 | [`reports/README.md`](reports/README.md) | **Báo cáo Phân tích Chuyên sâu & Insights Kinh doanh**: Diễn giải toàn diện 8 biểu đồ, phân tích tỷ lệ hủy phòng, doanh thu ADR, hành vi khách hàng và đề xuất chiến lược vận hành. |
+| [`reports/ml/README.md`](reports/ml/README.md) | **Báo cáo Mô hình Machine Learning Phân khúc Khách hàng**: Đánh giá số cụm tối ưu ($k=4$), phân tích PCA, trực quan hóa Radar Chart và hướng dẫn ứng dụng vào hệ thống thực tế. |

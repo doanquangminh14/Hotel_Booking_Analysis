@@ -20,7 +20,7 @@ plt.rcParams['font.size'] = 10
 plt.rcParams['figure.autolayout'] = True
 
 def get_figures_dir() -> Path:
-    fig_dir = get_project_root() / "reports" / "figures"
+    fig_dir = get_project_root() / "reports" / "eda" / "figures"
     fig_dir.mkdir(parents=True, exist_ok=True)
     return fig_dir
 
