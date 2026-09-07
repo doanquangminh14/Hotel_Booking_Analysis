@@ -17,3 +17,5 @@ Dự án phân tích dữ liệu đặt phòng khách sạn (**Hotel Booking Dem
 | `Data/hotel_bookings_featured.csv` | File dữ liệu đã qua tiền xử lý & Feature Engineering (87,223 dòng, 48 cột) sẵn sàng cho Machine Learning. |
 | [`src/extract.py`](src/extract.py) | Module Python trích xuất và nạp dữ liệu tự động cho toàn bộ dự án. |
 | [`src/transform.py`](src/transform.py) | Module Python làm sạch và chuẩn hóa dữ liệu (Data Cleaning & Preprocessing). |
+| [`src/eda.py`](src/eda.py) | Module Python tự động tạo 8 biểu đồ trực quan hóa giải quyết các bài toán kinh doanh thực tế. |
+| [`reports/README.md`](reports/README.md) | **Báo cáo Phân tích Chuyên sâu & Insights Kinh doanh**: Diễn giải toàn diện 8 biểu đồ, phân tích tỷ lệ hủy phòng, doanh thu ADR, hành vi khách hàng và đề xuất chiến lược vận hành. |
