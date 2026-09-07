@@ -15,3 +15,4 @@ Dự án phân tích dữ liệu đặt phòng khách sạn (**Hotel Booking Dem
 | [`cleaning.ipynb`](notebook/cleaning.ipynb) | **Quy trình làm sạch dữ liệu (Data Cleaning & Preprocessing)**: Xử lý dòng trùng lặp, xử lý missing values (`company`, `agent`, `country`, `children`), loại bỏ đơn 0 khách, chuẩn hóa ngoại lai ADR, chuyển đổi kiểu dữ liệu (`int64`, `datetime`) và tạo các đặc trưng mới (`total_stay`, `total_guests`, `is_room_changed`, `is_family`, `total_cost`). Dữ liệu sạch được lưu trong biến bộ nhớ `df_clean`. |
 | `Data/hotel_bookings.csv` | File dữ liệu gốc chứa 119,390 bản ghi đặt phòng khách sạn. |
 | `Data/hotel_bookings_featured.csv` | File dữ liệu đã qua tiền xử lý & Feature Engineering (87,223 dòng, 48 cột) sẵn sàng cho Machine Learning. |
+| [`src/extract.py`](src/extract.py) | Module Python trích xuất và nạp dữ liệu tự động cho toàn bộ dự án. |
