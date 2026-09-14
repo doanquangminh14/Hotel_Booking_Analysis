@@ -13,11 +13,11 @@ Tập dữ liệu chứa **119,390 bản ghi** đặt phòng từ 2 loại hình
 3. **Kỹ thuật tạo đặc trưng chuyên sâu (Feature Engineering Pipeline)**: Tạo 16 biến phái sinh đa chiều về thời gian, cơ cấu đoàn, tài chính và lịch sử tương tác.
 4. **Khai phá quy luật kinh doanh & Trực quan hóa (Business Insights & Visualizations)**: Trả lời 8 bài toán trọng tâm về tỷ lệ hủy phòng, mùa vụ giá ADR, cơ cấu đoàn khách và thị trường quốc tế.
 5. **Xây dựng mô hình Machine Learning Phân khúc Khách hàng (Customer Segmentation via K-Means & PCA)**:
-   - Đánh giá lựa chọn số cụm tối ưu ($k=4$) qua 4 tiêu chuẩn toán học: Elbow/Inertia, Silhouette Score, Davies-Bouldin Index và Calinski-Harabasz Index.
-   - Giảm chiều không gian bằng PCA (3 PC đầu tiên giải thích 50.6% tổng phương sai).
-   - Phân tích ma trận trọng số đặc trưng (PCA Loadings Matrix) để giải thích ý nghĩa các trục biến thiên.
+   - Đánh giá lựa chọn số cụm tối ưu ($k=4$) qua 4 phương pháp kiểm định: Elbow/Inertia, Silhouette Score, Davies-Bouldin Index và Calinski-Harabasz Index.
+   - Giảm chiều không gian bằng PCA (3 thành phần chính đầu tiên giải thích 50.6% tổng phương sai dữ liệu).
+   - Phân tích ma trận trọng số đặc trưng (PCA Loadings Matrix) để diễn giải rõ ràng ý nghĩa từng trục biến thiên.
    - Định danh 4 nhóm chân dung khách hàng (Personas) qua Radar Chart và phân tích chỉ số đóng góp doanh thu (Revenue KPIs).
-   - Thiết lập kiến trúc triển khai mô hình chấm điểm thời gian thực (Real-time Scoring Flow) và cơ chế giám sát độ lệch phân phối (Data Drift Monitoring).
+   - Thiết lập kiến trúc triển khai mô hình chấm điểm thời gian thực (Real-time Scoring Flow) và cơ chế giám sát độ lệch phân phối dữ liệu (Data Drift Monitoring).
 6. **Đóng gói mã nguồn theo dạng Pipeline Module (`src/`) và hệ thống báo cáo chuyên nghiệp (`reports/`)**.
 
 ---
@@ -90,7 +90,7 @@ Hotel_Booking_Analysis/
 | Báo cáo | Mô tả nội dung |
 | :--- | :--- |
 | [**Báo cáo Khai phá Dữ liệu (EDA Report)**](reports/eda/README.md) | Diễn giải toàn diện 8 biểu đồ kinh doanh, phân tích rủi ro hủy phòng, chiến lược định giá mùa vụ và ma trận hành động. |
-| [**Báo cáo Machine Learning (ML Report)**](reports/ml/README.md) | Cơ sở toán học, đánh giá $k=4$, ma trận trọng số PCA Loadings, Radar Chart 4 Personas, chỉ số đóng góp doanh thu và kiến trúc MLOps phục vụ thực tế (kèm 7 biểu đồ tại `reports/ml/figures/` và `cluster_profiles.csv`). |
+| [**Báo cáo Machine Learning (ML Report)**](reports/ml/README.md) | Quy trình phân cụm, đánh giá $k=4$, ma trận trọng số PCA Loadings, Radar Chart 4 Personas, chỉ số đóng góp doanh thu và kiến trúc triển khai thực tế (kèm 7 biểu đồ tại `reports/ml/figures/` và `cluster_profiles.csv`). |
 | [**Mục lục Báo cáo (Reports Hub)**](reports/README.md) | Trang điều hướng trung tâm liên kết tất cả các báo cáo và biểu đồ trong dự án. |
 
 ---

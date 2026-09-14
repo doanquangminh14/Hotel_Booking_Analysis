@@ -1,298 +1,222 @@
-# BAO CAO MO HINH MACHINE LEARNING: PHAN KHUC KHACH HANG (CUSTOMER SEGMENTATION REPORT)
+# BÁO CÁO MÔ HÌNH MACHINE LEARNING: PHÂN KHÚC KHÁCH HÀNG (CUSTOMER SEGMENTATION REPORT)
 
-Bao cao nay trinh bay chi tiet quy trinh nghien cuu, thiet ke, huan luyen, danh gia va ung dung thuc tien cua he thong mo hinh **Hoc khong giam sat (Unsupervised Machine Learning - Clustering)** nham phan cum va dinh danh cac nhom chan dung khach hang (Customer Personas) trong nganh kinh doanh khach san.
+Báo cáo này trình bày chi tiết quy trình xây dựng, đánh giá và ứng dụng thực tiễn của mô hình **Học không giám sát (Machine Learning - Phân cụm K-Means & PCA)** nhằm phân nhóm và định danh các chân dung khách hàng (Customer Personas) trong kinh doanh khách sạn.
 
-Tat ca cac bieu do va bang thong ke trong bao cao duoc khoi tao tu dong boi module [`src/ml.py`](../../src/ml.py) va luu tru tai thu muc [`reports/ml/figures/`](figures/). Du lieu thong ke chi tiet tung dac trung duoc luu tai [`cluster_profiles.csv`](cluster_profiles.csv).
-
----
-
-## 1. TONG QUAN BAI TOAN & CO SO LY THUYET
-
-### 1.1 Muc tieu bai toan
-Trong linh vuc Hospitality & Revenue Management, viec ap dung mot chinh sach gia va tiep thi dai tra (one-size-fits-all) dan den lang phi ngan sach tiep thi, ty le phong trong cao va bo lo co hoi gia tang doanh thu (RevPAR). Muc tieu cua he thong Machine Learning nay la:
-1. Tu dong nhan dien cac nhom khach hang co dac tinh hanh vi, thoi quen chi tieu va muc do cam ket tuong dong.
-2. Cung cap co so dinh luong de toi uu hoa chinh sach gia linh hoat (Dynamic Pricing), quan tri phong va nang cao gia tri vong doi khach hang (Customer Lifetime Value - CLV).
-3. Thiet lap chien luoc ca nhan hoa dich vu va chuong trinh khach hang than thiet (Loyalty Program).
-
-### 1.2 Tap du lieu huan luyen (Training Population)
-* **Tap du lieu**: Loc tren tap du lieu da qua tien xu ly va Feature Engineering, chi giu lai cac don dat phong **hoan tat luu tru thanh cong (`is_canceled == 0`)** voi tong cong **63,219 ban ghi**.
-* **Ly do chon don thanh cong**: Hanh vi luu tru thuc te, muc do tieu thu dich vu va tong doanh thu thuc thu phan anh chinh xac nhat gia tri va chan dung cua tung phan khuc khach hang.
-
-### 1.3 Thuat toan su dung & Cong thuc toan hoc
-
-#### A. K-Means Clustering
-Thuat toan K-Means tim cach phan chia $N$ quan sat thanh $k$ cum rieng biet $S = \{S_1, S_2, \dots, S_k\}$ sao cho tong binh phuong khoang cach tu cac diem den tam cum tuong ung (Within-Cluster Sum of Squares - WCSS / Inertia) la nho nhat:
-
-$$\min_{S} \sum_{j=1}^{k} \sum_{x_i \in S_j} ||x_i - \mu_j||^2$$
-
-Trong do $\mu_j$ la vector toa do trung binh (Centroid) cua cum $S_j$. Thuat toan su dung khoang cach Euclidean tren khong gian vector dac trung da duoc chuan hoa:
-
-$$d(x, \mu) = \sqrt{\sum_{m=1}^{D} (x_m - \mu_m)^2}$$
-
-#### B. Giam chieu khong gian bang PCA (Principal Component Analysis)
-PCA bien doi tap hop $D$ bien ban dau thanh $D$ thanh phan chinh truc giao khong tuong quan, sap xep theo thu tu giam dan cua phuong sai giai thich:
-1. Tinh ma tran hiep phuong sai: $\Sigma = \frac{1}{n} X^T X$ (voi $X$ da chuan hoa $\mu=0, \sigma=1$).
-2. Phan ra tri rieng va vector rieng: $\Sigma v_i = \lambda_i v_i$.
-3. Chieu du lieu len $p$ thanh phan dau tien ($p \ll D$) de truc quan hoa khong gian cum ma khong lam mat cac cau truc bien thien cot loi.
+Tất cả các biểu đồ phân tích trong báo cáo được tự động khởi tạo bởi module [`src/ml.py`](../../src/ml.py) và lưu trữ tại thư mục [`reports/ml/figures/`](figures/). Dữ liệu thống kê chi tiết từng đặc trưng được lưu tại [`cluster_profiles.csv`](cluster_profiles.csv).
 
 ---
 
-## 2. HE THONG DAC TRUNG & TIEN XU LY DU LIEU (FEATURE ENGINEERING)
+## 1. TỔNG QUAN BÀI TOÁN & MỤC TIÊU KINH DOANH
 
-Mo hinh su dung **14 dac trung hanh vi da chieu** duoc xay dung qua ETL pipeline tai [`src/transform.py`](../../src/transform.py):
+### 1.1 Bối cảnh và Thách thức
+Trong quản trị doanh thu khách sạn (Revenue Management), việc áp dụng một chính sách giá và tiếp thị đại trà cho tất cả khách hàng dẫn đến lãng phí ngân sách tiếp thị, tỷ lệ hủy phòng cao và bỏ lỡ cơ hội gia tăng doanh thu trên mỗi phòng sẵn có (RevPAR).
 
-| Nhom dac trung | Bien su dung | Y nghia phan tich & Kinh doanh |
+### 1.2 Mục tiêu ứng dụng Machine Learning
+1. **Tự động nhận diện phân khúc**: Phân nhóm khách hàng dựa trên hành vi lưu trú, thói quen đặt trước, quy mô đoàn và khả năng chi trả.
+2. **Cá nhân hóa trải nghiệm & tiếp thị**: Thiết kế các gói sản phẩm, ưu đãi và dịch vụ bổ trợ phù hợp cho từng nhóm đối tượng cụ thể.
+3. **Tối ưu hóa giá linh hoạt (Dynamic Pricing)**: Cung cấp chính sách giá, điều kiện hủy và số đêm lưu trú tối thiểu phù hợp theo từng phân khúc.
+4. **Xây dựng chương trình khách hàng thân thiết (Loyalty Program)**: Giữ chân khách hàng tiềm năng và chuyển đổi khách đặt qua đại lý OTA sang đặt trực tiếp (Direct Booking).
+
+### 1.3 Tập dữ liệu huấn luyện
+* **Tập dữ liệu**: Lọc từ dữ liệu đã qua tiền xử lý và tạo đặc trưng, chỉ giữ lại các đơn đặt phòng **hoàn tất lưu trú thành công (`is_canceled == 0`)** với quy mô **63,219 bản ghi**.
+* **Lý do lựa chọn**: Các đơn hoàn tất lưu trú phản ánh chính xác nhất hành vi tiêu dùng, thói quen sinh hoạt và doanh thu thực tế mà khách hàng mang lại cho khách sạn.
+
+---
+
+## 2. HỆ THỐNG ĐẶC TRƯNG & TIỀN XỬ LÝ DỮ LIỆU
+
+Mô hình sử dụng **14 đặc trưng hành vi đa chiều** được trích xuất tự động qua pipeline [`src/transform.py`](../../src/transform.py):
+
+| Nhóm đặc trưng | Tên biến | Ý nghĩa phân tích thực tế |
 | :--- | :--- | :--- |
-| **Thoi gian & Dat truoc** | `lead_time`<br>`total_stay`<br>`stays_in_weekend_nights`<br>`stays_in_week_nights`<br>`weekend_stay_ratio` | Mua vu dat phong, muc do len ke hoach truoc, tong thoi luong luu tru va ty trong dem nghi cuoi tuan. |
-| **Co cau doan khach** | `total_guests`<br>`is_family`<br>`is_solo_traveler` | Quy mo nhom khach, su hien dien cua tre em/tre so sinh hoac khach di mot minh. |
-| **Tai chinh & Chi tieu** | `adr`<br>`adr_per_person` | Gia phong trung binh moi dem (Average Daily Rate) va muc chi tieu binh quan tren dau nguoi. |
-| **Muc do tuong tac & Trung thanh** | `total_of_special_requests`<br>`required_car_parking_spaces`<br>`booking_changes`<br>`is_repeated_guest` | Muc do dau tu tam ly vao chuyen di, nhu cau bai xe, tinh chu dong dieu chinh lich trinh va do trung thanh. |
+| **Thời gian & Đặt trước** | `lead_time`<br>`total_stay`<br>`stays_in_weekend_nights`<br>`stays_in_week_nights`<br>`weekend_stay_ratio` | Thời gian lên kế hoạch trước ngày nhận phòng, tổng số đêm lưu trú, số đêm ở ngày thường so với cuối tuần và tỷ trọng cuối tuần. |
+| **Cơ cấu đoàn khách** | `total_guests`<br>`is_family`<br>`is_solo_traveler` | Quy mô nhóm khách, gia đình có trẻ em/trẻ sơ sinh hay khách đi công tác một mình. |
+| **Tài chính & Chi tiêu** | `adr`<br>`adr_per_person` | Giá phòng trung bình mỗi đêm (ADR) và mức chi trả trung bình trên mỗi đầu người. |
+| **Tương tác & Mức độ gắn kết** | `total_of_special_requests`<br>`required_car_parking_spaces`<br>`booking_changes`<br>`is_repeated_guest` | Số lượng yêu cầu đặc biệt (thể hiện mức độ quan tâm đến chuyến đi), nhu cầu bãi đỗ xe ô tô, số lần đổi lịch và lịch sử khách quay lại. |
 
-### Quy trinh tien xu ly dac trung:
-1. **Xu ly ngoai lai (Outlier Capping / Winsorization)**: Doi voi cac bien co phan phoi lech phai manh (`lead_time`, `total_stay`, `adr`, `adr_per_person`, `booking_changes`), gia tri duoc gioi han tai phan vi 99% ($Q_{99}$) de bao ve tam cum K-Means khoi bi keo lech boi nhung don dat bat thuong.
-2. **Chuan hoa thang do (Feature Standardization)**: Su dung `StandardScaler` ($\mu = 0, \sigma = 1$) tren toan bo 14 bien, dam bao khoang cach Euclidean dong nhat tren moi chieu khong gian.
+### Quy trình tiền xử lý:
+1. **Xử lý giá trị ngoại lai (Outlier Capping / Winsorization)**: Giới hạn các biến có giá trị phân tán lớn ở phân vị 99% (`lead_time`, `total_stay`, `adr`, `adr_per_person`, `booking_changes`) để tránh làm lệch tâm cụm.
+2. **Chuẩn hóa dữ liệu (StandardScaler)**: Đưa toàn bộ 14 biến về cùng thang đo chuẩn (trung bình bằng 0, phương sai bằng 1) giúp thuật toán phân cụm đánh giá công bằng mức độ ảnh hưởng của từng đặc trưng.
 
 ---
 
-## 3. DANH GIA & XAC DINH SO CUM TOI UU ($k$)
+## 3. ĐÁNH GIÁ & LỰA CHỌN SỐ CỤM TỐI ƯU (k = 4)
 
 ![Optimal k Evaluation](figures/01_optimal_k_evaluation.png)
 
-Quyet dinh chon so luong cum $k$ duoc kiem dinh thuc nghiem tren dai gia tri tu $k = 2$ den $k = 8$ dua tren 4 tieu chuan toan hoc:
+Chúng ta đánh giá thực nghiệm số lượng cụm $k$ trong khoảng từ 2 đến 8 thông qua 4 tiêu chí đánh giá mô hình:
 
-1. **Phuong phap Diem uon (Elbow Method / Inertia)**:
-   * Do thi WCSS giam manh tu $k=2$ den $k=4$, sau do do doc giam dan tu $k=5$ tro di.
-   * Diem uon (Elbow inflection point) xuat hien ro rang nhat tai $k=4$.
+1. **Phương pháp Điểm uốn (Elbow Method / Inertia)**:
+   * Tổng khoảng cách nội cụm giảm mạnh khi tăng từ $k=2$ lên $k=4$, sau đó tốc độ giảm chậm dần từ $k=5$ trở đi.
+   * Điểm uốn xuất hiện rõ nét nhất tại vùng **$k = 4$**.
 
-2. **Silhouette Score**:
-   * Do luong do gan ket noi cum va khoang cach tach biet ngoai cum:
-     $$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$
-   * He so Silhouette dat muc on dinh tot tai $k=4$ tren toan bo tap mau kiem dinh.
+2. **Hệ số Silhouette (Silhouette Score)**:
+   * Đo lường độ gắn kết giữa các điểm trong cùng một cụm và độ phân tách với các cụm khác.
+   * Hệ số đạt mức cân bằng ổn định tại **$k = 4$** trên tập mẫu kiểm chứng.
 
-3. **Davies-Bouldin Index (Chi so cang nho cang tot)**:
-   * Do luong do tuong dong toi da giua moi cum va cum gan nhat:
-     $$DB = \frac{1}{k}\sum_{i=1}^k \max_{j \neq i} \left(\frac{\sigma_i + \sigma_j}{d(c_i, c_j)}\right)$$
-   * Chi so DB giam xuong muc thap tai $k=4$ (~1.64), chung to cac cum co do tach biet cao.
+3. **Chỉ số Davies-Bouldin (Giá trị càng nhỏ càng tốt)**:
+   * Đo lường mức độ tương đồng giữa các cụm. Chỉ số giảm xuống mức tối ưu tại **$k = 4$** (~1.64), thể hiện các cụm có ranh giới phân tách rõ ràng.
 
-4. **Calinski-Harabasz Index / Variance Ratio Criterion (Chi so cang lon cang tot)**:
-   * Ty so giua phuong sai lien cum (Between-cluster dispersion) va phuong sai noi cum (Within-cluster dispersion):
-     $$CH = \frac{\text{Tr}(B_k)}{\text{Tr}(W_k)} \times \frac{N-k}{k-1}$$
-   * Chi so Calinski-Harabasz dat gia tri rat cao (>10,400 diem) tai $k=4$.
+4. **Chỉ số Calinski-Harabasz (Giá trị càng lớn càng tốt)**:
+   * Đo lường tỷ lệ phân tán giữa các cụm so với nội cụm. Đạt giá trị vượt trội (>10,400 điểm) tại **$k = 4$**.
 
-**Ket luan**: So cum **$k = 4$** la lua chon can bang nhat giua chat luong toan hoc cua mo hinh va kha nang dien giai van hanh kinh doanh thuc te.
+**Kết luận**: Lựa chọn **$k = 4$** mang lại chất lượng phân nhóm tốt nhất, đồng thời phản ánh trọn vẹn 4 nhóm hành vi kinh doanh rõ rệt trong thực tế.
 
 ---
 
-## 4. PHAN TICH GIAM CHIEU PCA & TRONG SO DAC TRUNG (LOADINGS)
+## 4. PHÂN TÍCH GIẢM CHIỀU PCA & Ý NGHĨA TRỌNG SỐ ĐẶC TRƯNG
 
-### 4.1 Phuong sai giai thich (Explained Variance)
+### 4.1 Tỷ lệ phương sai giải thích (Explained Variance)
 
 ![PCA Explained Variance](figures/02_pca_explained_variance.png)
 
-* **Thanh phan chinh 1 (PC1)**: Giai thich **22.4%** phuong sai tong the.
-* **Thanh phan chinh 2 (PC2)**: Giai thich **15.8%** phuong sai tong the.
-* **Thanh phan chinh 3 (PC3)**: Giai thich **12.4%** phuong sai tong the.
-* **Tong phuong sai tich luy**: 3 thanh phan dau tien giai thich **50.6%** bien thien cua toan bo 14 dac trung ban dau, du de dai dien va truc quan hoa cau truc phan bo du lieu.
+* **Thành phần chính 1 (PC1)**: Giải thích **22.4%** phương sai dữ liệu.
+* **Thành phần chính 2 (PC2)**: Giải thích **15.8%** phương sai dữ liệu.
+* **Thành phần chính 3 (PC3)**: Giải thích **12.4%** phương sai dữ liệu.
+* **Tổng tích lũy 3 PC đầu tiên**: Giải thích **50.6%** tổng biến thiên của 14 đặc trưng ban đầu, giúp biểu diễn không gian phân cụm một cách tin cậy.
 
-### 4.2 Ma tran trong so dac trung (PCA Feature Loadings Matrix)
+### 4.2 Ma trận trọng số đặc trưng (PCA Feature Loadings)
 
 ![PCA Feature Loadings](figures/06_pca_feature_loadings.png)
 
-Phan tich he so tai trong giup dien giai ro rang y nghia vat ly cua cac chieu khong gian:
-* **PC1 (Truc thoi luong & Dat truoc)**: Mang trong so duong rat cao o `total_stay` (+0.54), `stays_in_week_nights` (+0.49), `stays_in_weekend_nights` (+0.46) va `lead_time` (+0.31). Dai dien cho nhom khach ky nghi dai ngay.
-* **PC2 (Truc doan khach & Muc chi tieu)**: Mang trong so duong manh o `total_guests` (+0.52), `adr` (+0.48), `is_family` (+0.41) va mang trong so am lon o `is_solo_traveler` (-0.45). Dai dien cho su phan hoa giua khach gia dinh chi tieu cao voi khach don le.
-* **PC3 (Truc lo trinh cuoi tuan & Yeu cau dac biet)**: Phan anh ty le luu tru cuoi tuan `weekend_stay_ratio` va so luong yeu cau dac biet `total_of_special_requests`.
+Ma trận trọng số giúp giải thích trực quan các trục phân bố:
+* **Trục PC1 (Thời lượng & Kế hoạch)**: Đóng góp dương lớn nhất từ tổng số đêm ở (`total_stay`), số đêm trong tuần (`stays_in_week_nights`), đêm cuối tuần và thời gian đặt trước (`lead_time`). Trục này đại diện cho xu hướng nghỉ dưỡng dài ngày.
+* **Trục PC2 (Đoàn khách & Chi tiêu)**: Đóng góp dương mạnh từ số lượng khách (`total_guests`), giá phòng (`adr`), biến gia đình (`is_family`) và đóng góp âm từ khách đi một mình (`is_solo_traveler`). Trục này phân hóa giữa khách gia đình chi tiêu cao và khách đi công tác đơn lẻ.
+* **Trục PC3 (Cuối tuần & Yêu cầu)**: Phản ánh tỷ trọng đêm nghỉ cuối tuần và số lượng yêu cầu dịch vụ đặc biệt.
 
 ---
 
-## 5. TRUC QUAN HOA KHONG GIAN PHAN CUM 2D PCA
+## 5. TRỰC QUAN HÓA KHÔNG GIAN PHÂN CỤM 2D PCA
 
 ![PCA 2D Clusters](figures/03_pca_2d_clusters.png)
 
-Tren khong gian 2 chieu PCA voi cac toa do tam cum (Centroids):
-* **Cum 0 (Mau do - Gia dinh cao cap)**: Dinh vi tai goc tren ben phai (PC2 cao), phan tach hoan toan khoi cac cum con lai nho quy mo doan khach va muc chi tieu vuot troi.
-* **Cum 1 (Mau xanh duong - Cap doi tieu chuan)**: Tap trung o khu vuc trung tam, dai dien cho khoi khach hang dai chung lon nhat.
-* **Cum 2 (Mau xanh la - Nghi duong dai ngay)**: Trai dai ve phia ben phai (PC1 cuc cao), dai dien cho cac ky luu tru dai hon 1 tuan.
-* **Cum 3 (Mau cam - Khach cong tac & Khach quen)**: Tap trung o goc duoi ben trai (PC2 am, PC1 thap), dai dien cho khach di mot minh voi thoi gian luu tru ngan va lead time gap.
+Trên không gian 2 chiều PCA cùng các tâm cụm đại diện (đánh dấu X màu đen):
+* **Cụm 0 (Màu đỏ - Gia đình cao cấp)**: Nằm ở phía trên (PC2 cao), tách biệt hoàn toàn nhờ quy mô đoàn lớn và giá phòng cao.
+* **Cụm 1 (Màu xanh dương - Cặp đôi tiêu chuẩn)**: Tập trung ở trung tâm, đại diện cho tệp khách hàng phổ thông đông đảo nhất.
+* **Cụm 2 (Màu xanh lá - Nghỉ dưỡng dài ngày)**: Trải dài về bên phải (PC1 cao), đại diện cho các kỳ nghỉ dài ngày.
+* **Cụm 3 (Màu cam - Khách công tác & Khách quen)**: Nằm ở góc dưới bên trái (PC2 âm, PC1 thấp), đại diện cho khách đi một mình, đặt phòng gấp và lưu trú ngắn ngày.
 
 ---
 
-## 6. THONG KE CHI TIET & PROFILE 4 PHAN KHUC KHACH HANG
+## 6. BẢNG THỐNG KÊ CHI TIẾT 4 PHÂN KHÚC KHÁCH HÀNG
 
 ![Cluster Feature Distributions](figures/04_cluster_feature_distributions.png)
 
-### Bang so sanh cac chi so thong ke giua 4 Cum:
+### Bảng so sánh các chỉ số trung bình giữa 4 Phân khúc:
 
-| Chi so hanh vi & Kinh doanh | Cum 0: Gia dinh cao cap | Cum 1: Cap doi tieu chuan | Cum 2: Nghi duong dai ngay | Cum 3: Cong tac & Khach quen |
+| Chỉ số hành vi & Vận hành | Cụm 0: Gia đình cao cấp | Cụm 1: Cặp đôi tiêu chuẩn | Cụm 2: Nghỉ dưỡng dài ngày | Cụm 3: Công tác & Khách quen |
 | :--- | :---: | :---: | :---: | :---: |
-| **Quy mo don dat (So luong / Ty trong)** | 5,892 (9.3%) | **34,987 (55.3%)** | 10,004 (15.8%) | 12,336 (19.5%) |
-| **Thoi gian dat truoc (`lead_time`)** | 74.6 ngay | 61.4 ngay | **139.1 ngay** | 36.2 ngay |
-| **Tong so dem luu tru (`total_stay`)** | 3.5 dem | 2.7 dem | **7.9 dem** | 2.1 dem |
-| **So dem cuoi tuan / trong tuan** | 1.0 / 2.5 dem | 0.7 / 2.0 dem | **2.3 / 5.6 dem** | 0.5 / 1.6 dem |
-| **So khach trung binh (`total_guests`)** | **3.36 nguoi** | 2.09 nguoi | 2.01 nguoi | 1.00 nguoi |
-| **Ty le co tre em (`is_family`)** | **99.8%** | 0.0% | 1.1% | 0.0% |
-| **Gia phong TB moi dem (`adr`)** | **149.8 EUR** | 104.2 EUR | 98.4 EUR | 77.2 EUR |
-| **Chi tieu tren dau nguoi (`adr_per_person`)**| 44.5 EUR | 49.9 EUR | 49.3 EUR | **77.1 EUR** |
-| **Nhu cau cho do xe (`parking_spaces`)** | **18.8%** | 11.8% | 9.5% | 9.5% |
-| **So yeu cau dac biet TB (`special_requests`)**| **1.12** | 0.82 | 0.76 | 0.43 |
-| **So lan thay doi don (`booking_changes`)** | **0.49** | 0.22 | 0.42 | 0.38 |
-| **Ty le khach quen quay lai (`repeated_guest`)**| 1.5% | 2.4% | 1.3% | **16.5%** |
+| **Quy mô đơn đặt (Số lượng / Tỷ lệ)** | 5,892 (9.3%) | **34,987 (55.3%)** | 10,004 (15.8%) | 12,336 (19.5%) |
+| **Thời gian đặt trước (`lead_time`)** | 74.6 ngày | 61.4 ngày | **139.1 ngày** | 36.2 ngày |
+| **Tổng số đêm lưu trú (`total_stay`)** | 3.5 đêm | 2.7 đêm | **7.9 đêm** | 2.1 đêm |
+| **Số đêm cuối tuần / trong tuần** | 1.0 / 2.5 đêm | 0.7 / 2.0 đêm | **2.3 / 5.6 đêm** | 0.5 / 1.6 đêm |
+| **Số khách trung bình (`total_guests`)** | **3.36 người** | 2.09 người | 2.01 người | 1.00 người |
+| **Tỷ lệ có trẻ em (`is_family`)** | **99.8%** | 0.0% | 1.1% | 0.0% |
+| **Giá phòng TB mỗi đêm (`adr`)** | **149.8 EUR** | 104.2 EUR | 98.4 EUR | 77.2 EUR |
+| **Chi tiêu trên mỗi đầu người** | 44.5 EUR | 49.9 EUR | 49.3 EUR | **77.1 EUR** |
+| **Nhu cầu bãi đỗ xe ô tô** | **18.8%** | 11.8% | 9.5% | 9.5% |
+| **Số yêu cầu đặc biệt trung bình** | **1.12** | 0.82 | 0.76 | 0.43 |
+| **Số lần thay đổi thông tin đặt phòng** | **0.49** | 0.22 | 0.42 | 0.38 |
+| **Tỷ lệ khách quen quay lại** | 1.5% | 2.4% | 1.3% | **16.5%** |
 
 ---
 
-## 7. CHI SO KINH DOANH & TY TRONG DOANH THU (BUSINESS & REVENUE KPIS)
+## 7. CHỈ SỐ DOANH THU & HIỆU QUẢ KINH DOANH (BUSINESS KPIS)
 
 ![Cluster Business Metrics](figures/07_cluster_business_metrics.png)
 
-1. **Dong gop doanh thu phong (Revenue Contribution)**:
-   * **Cum 1 (Cap doi tieu chuan)**: Dong gop lon nhat ve tong doanh thu (**~48.5%**) nho quy mo giao dich ap dao.
-   * **Cum 2 (Nghi duong dai ngay)**: Dong gop **~34.6%** tong doanh thu du chi chiem 15.8% luong khach nho thoi luong o dai (trung binh gan 8 dem).
-   * **Cum 0 (Gia dinh cao cap)**: Dong gop **~11.9%** doanh thu voi gia phong cao nhat.
-   * **Cum 3 (Khach cong tac)**: Dong gop **~5.0%** doanh thu luu tru.
+1. **Tỷ trọng đóng góp doanh thu (Revenue Contribution)**:
+   * **Cụm 1 (Cặp đôi tiêu chuẩn)**: Đóng góp lớn nhất vào tổng doanh thu phòng (**48.5%**) nhờ số lượng đặt phòng áp đảo.
+   * **Cụm 2 (Nghỉ dưỡng dài ngày)**: Đóng góp **34.6%** tổng doanh thu dù chỉ chiếm 15.8% lượt đặt, nhờ thời gian lưu trú vượt trội (gần 8 đêm/đơn).
+   * **Cụm 0 (Gia đình cao cấp)**: Đóng góp **11.9%** doanh thu với mức giá phòng trung bình cao nhất.
+   * **Cụm 3 (Khách công tác)**: Đóng góp **5.0%** doanh thu lưu trú.
 
-2. **Gia tri don dat phong trung binh (Average Booking Value)**:
-   * **Cum 2 (Nghi duong dai ngay)**: Dat **774.2 EUR / don dat** (cao gap 2.7 lan muc trung binh).
-   * **Cum 0 (Gia dinh cao cap)**: Dat **524.3 EUR / don dat**.
-   * **Cum 1 (Cap doi tieu chuan)**: Dat **280.3 EUR / don dat**.
-   * **Cum 3 (Khach cong tac)**: Dat **162.8 EUR / don dat**.
+2. **Giá trị đơn đặt phòng trung bình (Average Booking Value)**:
+   * **Cụm 2 (Nghỉ dưỡng dài ngày)**: Đạt **774.2 EUR / đơn đặt** (cao nhất toàn khách sạn).
+   * **Cụm 0 (Gia đình cao cấp)**: Đạt **524.3 EUR / đơn đặt**.
+   * **Cụm 1 (Cặp đôi tiêu chuẩn)**: Đạt **280.3 EUR / đơn đặt**.
+   * **Cụm 3 (Khách công tác)**: Đạt **162.8 EUR / đơn đặt**.
 
-3. **Ty le phu thuoc kenh OTA (Online Travel Agency Dependency)**:
-   * Cum 1 va Cum 2 co ty le dat phong qua Online TA cao nhat (>65%), trong khi Cum 3 co ty le dat qua Corporate va Direct cao vuot troi.
+3. **Tỷ lệ phụ thuộc kênh đại lý trực tuyến (Online TA Share)**:
+   * Cụm 1 và Cụm 2 phụ thuộc rất lớn vào các đại lý trực tuyến OTA (>65%), trong khi Cụm 3 có tỷ trọng đặt phòng trực tiếp và kênh doanh nghiệp cao vượt trội.
 
 ---
 
-## 8. RADAR CHART & CHIEN LUOC HANH DONG CHO 4 PERSONAS
+## 8. RADAR CHART & CHIẾN LƯỢC HÀNH ĐỘNG CHO 4 PERSONAS
 
 ![Radar Personas](figures/05_radar_personas.png)
 
 ---
 
-### PHAN KHUC 0: GIA DINH NGHI DUONG CAO CAP (HIGH-VALUE VACATION FAMILIES)
-* **Dac diem nhan dien**:
-  * 100% co tre nho / tre so sinh, quy mo doan trung binh 3.36 nguoi.
-  * Gia phong ADR cao nhat (**149.8 EUR/dem**).
-  * Nhu cau bai do xe cao nhat toan khach san (**18.8%**).
-  * So yeu cau dac biet cao nhat (**1.12 requests/don**).
-* **Pain Points & Nhu cau**:
-  * Can phong rong, phong lien thong (Connecting Rooms), tien nghi an toan cho tre nho.
-  * Nhu cau gui xe thuan tien, dich vu an uong tre em, ho boi tre em.
-* **Chien luoc Tiep thi & Doanh thu**:
-  * **San pham**: Goi Family Suite / Interconnecting Room kem ve tham quan khu vui choi, cong vien nuoc.
-  * **Chinh sach gia**: Mien phi giuong phu (Extra bed) va bua sang cho tre em duoi 6 tuoi.
-  * **Upsell**: Cung cap goi dich vu trong tre (Babysitting), set do dung ve sinh danh rieng cho tre nho tai phong.
+### PHÂN KHÚC 0: GIA ĐÌNH NGHỈ DƯỠNG CAO CẤP (HIGH-VALUE VACATION FAMILIES)
+* **Đặc điểm cốt lõi**:
+  * 100% đoàn có trẻ nhỏ / trẻ sơ sinh, quy mô trung bình 3.36 người.
+  * Giá phòng ADR cao nhất toàn khách sạn (**149.8 EUR/đêm**).
+  * Nhu cầu bãi đỗ xe cao nhất (**18.8%**), số lượng yêu cầu đặc biệt cao nhất (**1.12 yêu cầu/đơn**).
+* **Nhu cầu & Kỳ vọng**:
+  * Cần không gian phòng rộng, phòng thông nhau (Connecting Rooms), môi trường an toàn và tiện nghi cho trẻ nhỏ.
+  * Ưu tiên việc đỗ xe thuận tiện, thực đơn dinh dưỡng riêng và các hoạt động vui chơi giải trí cho bé.
+* **Chiến lược tiếp thị & Vận hành**:
+  * **Sản phẩm**: Thiết kế các gói Family Suite kết hợp vé tham quan công viên nước, khu giải trí trẻ em.
+  * **Chính sách giá**: Miễn phí giường phụ (Extra bed) và bữa sáng cho trẻ em dưới 6 tuổi.
+  * **Dịch vụ gia tăng**: Cung cấp dịch vụ trông trẻ (Babysitting), quà tặng chào mừng cho bé khi nhận phòng.
 
 ---
 
-### PHAN KHUC 1: CAP DOI TIEU CHUAN (MID-TIER STANDARD COUPLES)
-* **Dac diem nhan dien**:
-  * Phan khuc chu luc chiem **55.3%** tong luong khach.
-  * Di theo cap doi (2 nguoi lon, khong co tre em).
-  * Luu tru ngan-trung binh (**2.7 dem**), thoi gian dat truoc vua phai (**61.4 ngay**).
-  * Dat chu yeu qua cac dai ly truc tuyen (Online TA).
-* **Pain Points & Nhu cau**:
-  * Nhay cam voi gia ca, so sanh gia giua cac nen tang OTA, tim kiem trai nghiem thoai mai voi chi phi hop ly.
-* **Chien luoc Tiep thi & Doanh thu**:
-  * **Chuyen doi kenh (OTA to Direct)**: Tang voucher 10% cho lan dat sau tren website khach san hoac tang 1 ly cocktail tai Bar khi dat truc tiep.
-  * **Goi trai nghiem**: Goi ky niem / trang mat (Romance Package) gom hoa tuoi, ruou vang va trang tri phong.
+### PHÂN KHÚC 1: CẶP ĐÔI TIÊU CHUẨN (MID-TIER STANDARD COUPLES)
+* **Đặc điểm cốt lõi**:
+  * Chiếm quy mô lớn nhất (**55.3%** tổng lượng khách).
+  * Đi theo cặp đôi (2 người lớn, không có trẻ em), lưu trú trung bình 2.7 đêm.
+  * Thời gian đặt trước vừa phải (61.4 ngày), kênh đặt chủ yếu qua các nền tảng OTA.
+* **Nhu cầu & Kỳ vọng**:
+  * Nhạy cảm với mức giá phòng, quan tâm đến các đánh giá trực tuyến và vị trí thuận tiện để trải nghiệm ẩm thực, tham quan.
+* **Chiến lược tiếp thị & Vận hành**:
+  * **Chuyển đổi kênh (OTA sang Direct Booking)**: Tặng voucher giảm giá 10% cho lần đặt tiếp theo trên website chính thức hoặc tặng đồ uống chào mừng khi đặt trực tiếp.
+  * **Gói trải nghiệm**: Cung cấp gói kỷ niệm ngày cưới/trăng mật (Romance Package) bao gồm bữa tối lãng mạn, rượu vang và trang trí phòng.
 
 ---
 
-### PHAN KHUC 2: KHACH NGHI DUONG DAI NGAY (LONG-STAY HOLIDAY PLANNERS)
-* **Dac diem nhan dien**:
-  * Thoi luong luu tru dai nhat (**7.9 dem**), len ke hoach truoc rat xa (**139.1 ngay**).
-  * Gia tri moi don dat hang cao nhat (**774.2 EUR/don**).
-  * Chu yeu luu tru tai Resort Hotel vao mua he.
-* **Pain Points & Nhu cau**:
-  * Can cac tien ich luu tru lau dai: Dich vu giat ui, am thuc da dang (tranh nhao vi khi o lau), hoat dong giai tri hang ngay.
-* **Chien luoc Tiep thi & Doanh thu**:
-  * **Chinh sach gia luy tien**: Giam 15% cho dem thu 5 tro di, tang voucher Spa 30 EUR cho don tren 7 dem.
-  * **Goi am thuc tron goi**: Ban kem goi Full-Board hoac Half-Board voi thuc don doi moi hang ngay.
-  * **Dich vu ho tro**: Xe dua don san bay 2 chieu mien phi de tang tinh cam ket va tranh huy phong sat ngay.
+### PHÂN KHÚC 2: KHÁCH NGHỈ DƯỠNG DÀI NGÀY (LONG-STAY HOLIDAY PLANNERS)
+* **Đặc điểm cốt lõi**:
+  * Thời gian lưu trú dài nhất (**7.9 đêm**), lên kế hoạch trước rất xa (**139.1 ngày**).
+  * Mang lại giá trị trung bình trên mỗi đơn đặt cao nhất (**774.2 EUR/đơn**).
+  * Tập trung chủ yếu vào mùa hè tại các Resort Hotel.
+* **Nhu cầu & Kỳ vọng**:
+  * Cần các tiện nghi sinh hoạt dài ngày: Dịch vụ giặt ủi, ẩm thực đa dạng thay đổi theo ngày, các tour du lịch trải nghiệm địa phương.
+* **Chiến lược tiếp thị & Vận hành**:
+  * **Giá phòng lũy tiến**: Giảm giá 15% cho các đêm lưu trú từ đêm thứ 5 trở đi.
+  * **Gói ẩm thực trọn gói**: Bán kèm gói Full-Board / Half-Board với thực đơn phong phú.
+  * **Cam kết giữ phòng**: Cung cấp dịch vụ xe đưa đón sân bay 2 chiều miễn phí để tăng tính gắn kết, giảm thiểu rủi ro hủy phòng sát ngày.
 
 ---
 
-### PHAN KHUC 3: KHACH CONG TAC & KHACH TRUNG THANH (SOLO & BUSINESS LOYAL GUESTS)
-* **Dac diem nhan dien**:
-  * Khach di 1 minh (100% Solo traveler).
-  * Dat phong rat gap (**lead time 36.2 ngay**), luu tru ngan (**2.1 dem** trong tuan).
-  * Ty le khach quen quay lai cao nhat (**16.5%** - gap 10 lan cac cum khac).
-  * Chi tieu tren dau nguoi cao nhat (**77.1 EUR/nguoi/dem**).
-* **Pain Points & Nhu cau**:
-  * Toc do va su tien loi: Check-in / check-out nhanh, Wi-Fi toc do cao, khong gian lam viec yen tinh, hoa don tai chinh ro rang.
-* **Chien luoc Tiep thi & Doanh thu**:
-  * **Chuong trinh hoi vien (Corporate Loyalty)**: Tich diem tu dong, uu tien nang hang phong khi con trong.
-  * **Chinh sach linh hoat**: Mien phi nhan phong som (Early check-in) hoac tra phong muon (Late check-out).
-  * **Kenh tiep can**: Xay dung hop dong hop tac doanh nghiep (Corporate Rates) voi muc gia co dinh quanh nam.
+### PHÂN KHÚC 3: KHÁCH CÔNG TÁC & KHÁCH QUEN (SOLO & BUSINESS LOYAL GUESTS)
+* **Đặc điểm cốt lõi**:
+  * Khách đi một mình (100% Solo traveler), lưu trú ngắn ngày (2.1 đêm trong tuần).
+  * Thời gian đặt phòng rất gấp (`lead_time` trung bình 36.2 ngày).
+  * Tỷ lệ khách quen quay lại cao vượt trội (**16.5%**, cao gấp 10 lần các nhóm khác).
+  * Mức chi tiêu bình quân trên mỗi đầu người cao nhất (**77.1 EUR/người/đêm**).
+* **Nhu cầu & Kỳ vọng**:
+  * Cần sự nhanh chóng, thuận tiện: Thủ tục nhận/trả phòng nhanh, Wi-Fi tốc độ cao, không gian làm việc yên tĩnh, hỗ trợ xuất hóa đơn công ty.
+* **Chiến lược tiếp thị & Vận hành**:
+  * **Chương trình hội viên doanh nghiệp**: Tích lũy điểm thưởng nâng hạng phòng tự động, hỗ trợ nhận phòng sớm (Early check-in) và trả phòng muộn (Late check-out) linh hoạt.
+  * **Ký kết hợp đồng đối tác**: Thiết lập bảng giá hợp đồng doanh nghiệp cố định (Corporate Contract Rates) quanh năm.
 
 ---
 
-## 9. KIEN TRUC TRIEN KHAI & VAN HANH MO HINH (MLOPS & SERVING)
+## 9. KIẾN TRÚC TRIỂN KHAI VÀO HỆ THỐNG THỰC TẾ (MLOPS & SERVING)
 
-### 9.1 Quy trinh cham diem thoi gian thuc (Real-time Scoring Flow)
-Khi co mot don dat phong moi phat sinh tren he thong PMS/CRM:
+### 9.1 Quy trình chấm điểm thời gian thực (Scoring Pipeline)
+Khi một đơn đặt phòng mới được tạo trên hệ thống Quản lý Khách sạn (PMS / CRM):
 
-```
-[ PMS / Booking Webhook ]
-            │
-            ▼
-[ Feature Extraction Pipeline (src/transform.py) ]
-  • Tinh toan 14 dac trung hanh vi
-  • Ap dung Winsorization & StandardScaler da luu
-            │
-            ▼
-[ Inference Engine (K-Means k=4 Model) ]
-  • Tinh khoang cach Euclidean den 4 Centroids
-  • Du doan Cluster ID & xac suat phan bo
-            │
-            ▼
-[ Customer Persona Assignment ]
-  • Gan nhan Persona (Family / Couple / Long-stay / Corporate)
-            │
-            ▼
-[ Action Trigger ]
-  ├── CRM: Gui chuoi email tiep thi ca nhan hoa
-  ├── Front Desk: Chuan bi tien nghi phong phu hop
-  └── Revenue Engine: Dynamic Pricing & goi Upsell tuong ung
-```
+1. **Thu thập dữ liệu đơn đặt**: Tiếp nhận thông tin về ngày đến, số đêm, cơ cấu khách, giá phòng và các yêu cầu đi kèm.
+2. **Trích xuất đặc trưng**: Module [`src/transform.py`](../../src/transform.py) tự động tính toán 14 biến hành vi và chuẩn hóa qua bộ `StandardScaler` đã huấn luyện.
+3. **Phân loại phân khúc**: Mô hình K-Means gán nhãn cụm (Cluster ID) và định danh Persona tương ứng.
+4. **Kích hoạt hành động tự động**:
+   - Hệ thống CRM gửi email xác nhận kèm các gợi ý tiện ích phù hợp với nhóm khách.
+   - Bộ phận Lễ tân và Buồng phòng chuẩn bị trước phòng nghỉ theo tiêu chuẩn của từng Persona.
+   - Hệ thống Quản trị Doanh thu đưa ra đề xuất nâng cấp hạng phòng (Upsell) phù hợp.
 
-### 9.2 Doan ma mau cham diem don dat phong moi (Inference Code)
-
-```python
-import joblib
-import numpy as np
-import pandas as pd
-from src.transform import engineer_features
-
-# 1. Nap Scaler va Model da huan luyen
-scaler = joblib.load("models/scaler.pkl")
-kmeans = joblib.load("models/kmeans_k4.pkl")
-
-# 2. Ham du doan Persona cho don dat moi
-def predict_customer_persona(booking_dict: dict) -> str:
-    persona_mapping = {
-        0: "Gia dinh nghi duong cao cap",
-        1: "Cap doi tieu chuan",
-        2: "Khach nghi duong dai ngay",
-        3: "Khach cong tac & Khach quen"
-    }
-    
-    df_single = pd.DataFrame([booking_dict])
-    df_fe = engineer_features(df_single)
-    
-    feature_cols = [
-        'lead_time', 'total_stay', 'stays_in_weekend_nights', 'stays_in_week_nights',
-        'weekend_stay_ratio', 'total_guests', 'is_family', 'is_solo_traveler',
-        'adr', 'adr_per_person', 'total_of_special_requests',
-        'required_car_parking_spaces', 'booking_changes', 'is_repeated_guest'
-    ]
-    
-    X_raw = df_fe[feature_cols].values
-    X_scaled = scaler.transform(X_raw)
-    cluster_id = kmeans.predict(X_scaled)[0]
-    
-    return persona_mapping[cluster_id]
-```
-
-### 9.3 Giam sat mo hinh & Tai huan luyen (Monitoring & Retraining)
-* **Chi so giam sat lech phan phoi (Data Drift)**: Tinh toan chi so PSI (Population Stability Index) hang thang tren 14 dac trung. Neu $PSI > 0.2$, kich hoat canh bao lech du lieu.
-* **Tan suat tai huan luyen (Retraining Schedule)**: Dinh ky 3 thang/lan voi du lieu mua vu moi hoac khi co su thay doi lon ve co cau thi truong khach quoc te.
+### 9.2 Giám sát và Tái huấn luyện mô hình (Monitoring & Retraining)
+* **Giám sát độ lệch dữ liệu (Data Drift)**: Định kỳ hàng tháng theo dõi chỉ số ổn định phân phối (Population Stability Index - PSI) trên 14 đặc trưng để phát hiện sớm sự thay đổi trong hành vi đặt phòng.
+* **Lịch tái huấn luyện**: Cập nhật lại mô hình định kỳ mỗi quý hoặc trước các đợt cao điểm mùa du lịch nhằm thích ứng với biến động thị trường.

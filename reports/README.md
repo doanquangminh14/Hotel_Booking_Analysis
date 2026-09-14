@@ -1,30 +1,30 @@
-# HE THONG BAO CAO PHAN TICH & MACHINE LEARNING (PROJECT REPORTS HUB)
+# HỆ THỐNG BÁO CÁO PHÂN TÍCH & MACHINE LEARNING (PROJECT REPORTS HUB)
 
-Thu muc `reports/` duoc to chuc thanh cac phan bao cao chuyen biet, moi bao cao di kem thu muc hinh anh truc quan hoa do phan giai cao (300 DPI) va tai lieu phan tich kinh doanh rieng biet:
+Thư mục `reports/` được tổ chức thành các phần báo cáo chuyên biệt, mỗi báo cáo đi kèm thư mục hình ảnh trực quan hóa độ phân giải cao (300 DPI) và tài liệu phân tích kinh doanh riêng biệt:
 
 ---
 
-## CAU TRUC BAO CAO
+## CẤU TRÚC BÁO CÁO
 
-| Thu muc Bao cao | File bao cao chi tiet | Script tao bieu do | Mo ta noi dung |
+| Thư mục Báo cáo | File báo cáo chi tiết | Script tạo biểu đồ | Mô tả nội dung |
 | :--- | :--- | :--- | :--- |
-| [`reports/eda/`](eda/) | [`reports/eda/README.md`](eda/README.md) | [`src/eda.py`](../src/eda.py) | **Khai pha Du lieu & Insights Kinh doanh**: Phan tich ty le huy phong (theo kenh, thoi gian dat truoc, chinh sach coc), mua vu & gia phong ADR, co cau nhom khach hang va thi truong quoc te (kem 8 bieu do tai `eda/figures/`). |
-| [`reports/ml/`](ml/) | [`reports/ml/README.md`](ml/README.md) | [`src/ml.py`](../src/ml.py) | **Mo hinh Machine Learning Phan khuc Khach hang**: Danh gia so cum toi uu ($k=4$), giam chieu khong gian PCA, ma tran trong so dac trung, dinh danh 4 Personas, chi so dong gop doanh thu va kien truc MLOps (kem 7 bieu do tai `ml/figures/` va `cluster_profiles.csv`). |
+| [`reports/eda/`](eda/) | [`reports/eda/README.md`](eda/README.md) | [`src/eda.py`](../src/eda.py) | **Khai phá Dữ liệu & Insights Kinh doanh**: Phân tích tỷ lệ hủy phòng (theo kênh, thời gian đặt trước, chính sách cọc), mùa vụ & giá phòng ADR, cơ cấu nhóm khách hàng và thị trường quốc tế (kèm 8 biểu đồ tại `eda/figures/`). |
+| [`reports/ml/`](ml/) | [`reports/ml/README.md`](ml/README.md) | [`src/ml.py`](../src/ml.py) | **Mô hình Machine Learning Phân khúc Khách hàng**: Đánh giá số cụm tối ưu ($k=4$), phân tích giảm chiều PCA, ma trận trọng số đặc trưng, định danh 4 Personas, chỉ số đóng góp doanh thu và kiến trúc triển khai thực tế (kèm 7 biểu đồ tại `ml/figures/` và `cluster_profiles.csv`). |
 
 ---
 
-## HUONG DAN TAO LAI TAT CA BIEU DO
+## HƯỚNG DẪN TẠO LẠI TẤT CẢ BIỂU ĐỒ
 
-Ban co the chay cac script Python doc lap de tu dong khoi tao lai toan bo hinh anh trong tung thu muc bao cao:
+Bạn có thể chạy các script Python độc lập để tự động khởi tạo lại toàn bộ hình ảnh trong từng thư mục báo cáo:
 
-1. **Khoi tao lai bieu do phan tich kinh doanh (EDA)**:
+1. **Khởi tạo lại biểu đồ phân tích kinh doanh (EDA)**:
    ```bash
    python src/eda.py
    ```
-   *Hinh anh se duoc luu tai:* `reports/eda/figures/`
+   *Hình ảnh sẽ được lưu tại:* `reports/eda/figures/`
 
-2. **Khoi tao lai bieu do mo hinh Machine Learning**:
+2. **Khởi tạo lại biểu đồ mô hình Machine Learning**:
    ```bash
    python src/ml.py
    ```
-   *Hinh anh va bang thong ke se duoc luu tai:* `reports/ml/figures/` va `reports/ml/cluster_profiles.csv`
+   *Hình ảnh và bảng thống kê sẽ được lưu tại:* `reports/ml/figures/` và `reports/ml/cluster_profiles.csv`
