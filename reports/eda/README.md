@@ -2,7 +2,7 @@
 
 Báo cáo này tổng hợp các phát hiện dữ liệu, phân tích trực quan và đề xuất chiến lược kinh doanh thực tế từ tập dữ liệu đặt phòng khách sạn (**Hotel Booking Demand Dataset**).
 
-Tất cả các biểu đồ phân tích trong báo cáo được tự động khởi tạo bởi module [`src/eda.py`](../src/eda.py) và lưu trữ tại thư mục [`reports/figures/`](figures/).
+Tất cả các biểu đồ phân tích trong báo cáo được tự động khởi tạo bởi module [`src/eda.py`](../../src/eda.py) và lưu trữ tại thư mục [`reports/eda/figures/`](figures/).
 
 ---
 

@@ -1,36 +1,41 @@
-# 🏨 Hotel Booking Analysis & Customer Segmentation Machine Learning
+# Hotel Booking Analysis & Customer Segmentation Machine Learning
 
 Dự án phân tích dữ liệu đặt phòng khách sạn (**Hotel Booking Demand Dataset**) kết hợp xây dựng mô hình **Machine Learning (Học không giám sát - Phân cụm K-Means & PCA)** nhằm tối ưu hóa doanh thu, quản trị rủi ro hủy phòng và cá nhân hóa trải nghiệm khách hàng.
 
 ---
 
-## 📌 TỔNG QUAN DỰ ÁN (PROJECT OVERVIEW)
+## TỔNG QUAN DỰ ÁN (PROJECT OVERVIEW)
 
 Tập dữ liệu chứa **119,390 bản ghi** đặt phòng từ 2 loại hình khách sạn (**City Hotel** và **Resort Hotel**). Dự án được triển khai theo quy trình chuẩn của một bài toán Khoa học Dữ liệu thực tế:
 
 1. **Khám phá & Kiểm tra chất lượng dữ liệu (Data Understanding & EDA)**.
 2. **Tiền xử lý & Chuẩn hóa dữ liệu (Data Cleaning & Quality Assurance)**.
-3. **Kỹ thuật tạo đặc trưng chuyên sâu (Feature Engineering Pipeline)**.
-4. **Khai phá quy luật kinh doanh & Trực quan hóa (Business Insights & Visualizations)**.
-5. **Xây dựng mô hình Machine Learning Phân khúc Khách hàng (Customer Segmentation via K-Means & PCA)**.
+3. **Kỹ thuật tạo đặc trưng chuyên sâu (Feature Engineering Pipeline)**: Tạo 16 biến phái sinh đa chiều về thời gian, cơ cấu đoàn, tài chính và lịch sử tương tác.
+4. **Khai phá quy luật kinh doanh & Trực quan hóa (Business Insights & Visualizations)**: Trả lời 8 bài toán trọng tâm về tỷ lệ hủy phòng, mùa vụ giá ADR, cơ cấu đoàn khách và thị trường quốc tế.
+5. **Xây dựng mô hình Machine Learning Phân khúc Khách hàng (Customer Segmentation via K-Means & PCA)**:
+   - Đánh giá lựa chọn số cụm tối ưu ($k=4$) qua 4 tiêu chuẩn toán học: Elbow/Inertia, Silhouette Score, Davies-Bouldin Index và Calinski-Harabasz Index.
+   - Giảm chiều không gian bằng PCA (3 PC đầu tiên giải thích 50.6% tổng phương sai).
+   - Phân tích ma trận trọng số đặc trưng (PCA Loadings Matrix) để giải thích ý nghĩa các trục biến thiên.
+   - Định danh 4 nhóm chân dung khách hàng (Personas) qua Radar Chart và phân tích chỉ số đóng góp doanh thu (Revenue KPIs).
+   - Thiết lập kiến trúc triển khai mô hình chấm điểm thời gian thực (Real-time Scoring Flow) và cơ chế giám sát độ lệch phân phối (Data Drift Monitoring).
 6. **Đóng gói mã nguồn theo dạng Pipeline Module (`src/`) và hệ thống báo cáo chuyên nghiệp (`reports/`)**.
 
 ---
 
-## 🎯 KẾT QUẢ & PHÁT HIỆN CHÍNH (KEY HIGHLIGHTS)
+## KẾT QUẢ & PHÁT HIỆN CHÍNH (KEY HIGHLIGHTS)
 
 * **Rủi ro Hủy phòng**: Tỷ lệ hủy phòng trung bình là **27.5%**. City Hotel có tỷ lệ hủy cao hơn Resort Hotel. Thời gian đặt trước (`lead_time`) tỷ lệ thuận với xác suất hủy (>45% đối với các đơn đặt trước trên 6 tháng).
 * **Doanh thu & Mùa vụ**: Resort Hotel bùng nổ doanh thu vào mùa hè tháng 7-8 (ADR >150 EUR/đêm) nhưng suy giảm mạnh vào mùa đông. City Hotel duy trì giá phòng ổn định (~100-120 EUR/đêm) quanh năm.
 * **Hành vi Khách hàng**: Khách đi theo **Gia đình (Family)** có mức chi tiêu phòng (ADR) cao nhất (~150 EUR). Khách có từ **1-2 yêu cầu đặc biệt** có tỷ lệ hủy phòng giảm xuống dưới 18% (so với 32.8% ở khách không có yêu cầu).
 * **4 Phân khúc Khách hàng Machine Learning (K-Means $k=4$)**:
-  * 👨‍👩‍👧 **Cluster 0: Gia đình nghỉ dưỡng cao cấp (9.3%)** — 100% có trẻ em, ADR cao nhất (~143 EUR), nhu cầu bãi xe cao (18.8%).
-  * 🏖️ **Cluster 1: Khách nghỉ dưỡng dài ngày (15.8%)** — Lưu trú dài nhất (~7.9 đêm), đặt trước xa (~141 ngày).
-  * 👫 **Cluster 2: Cặp đôi tiêu chuẩn (55.3%)** — Nhóm khách chủ lực, đi 2 người lớn, lưu trú 2.7 đêm, đặt qua OTA.
-  * 💼 **Cluster 3: Khách công tác & Khách quen (19.5%)** — Đi 1 mình, đặt gấp (~36 ngày), tỷ lệ khách quen cao nhất (**16.5%**).
+  * **Cluster 0: Gia đình nghỉ dưỡng cao cấp (9.3%)** — 100% có trẻ em, ADR cao nhất (~149.8 EUR), nhu cầu bãi xe cao nhất (18.8%), số yêu cầu đặc biệt cao nhất (1.12).
+  * **Cluster 1: Cặp đôi tiêu chuẩn (55.3%)** — Nhóm khách chủ lực chiếm 48.5% tổng doanh thu, đi 2 người lớn, lưu trú 2.7 đêm, đặt chủ yếu qua OTA.
+  * **Cluster 2: Khách nghỉ dưỡng dài ngày (15.8%)** — Lưu trú dài nhất (~7.9 đêm), đặt trước xa (~139.1 ngày), giá trị đơn đặt trung bình cao nhất (774.2 EUR/đơn).
+  * **Cluster 3: Khách công tác & Khách quen (19.5%)** — Đi 1 mình (Solo), đặt gấp (`lead_time` ~36.2 ngày), tỷ lệ khách quen quay lại cao nhất (**16.5%**), chi tiêu bình quân đầu người cao nhất (77.1 EUR/người/đêm).
 
 ---
 
-## 📁 CẤU TRÚC THƯ MỤC DỰ ÁN
+## CẤU TRÚC THƯ MỤC DỰ ÁN
 
 ```text
 Hotel_Booking_Analysis/
@@ -51,7 +56,7 @@ Hotel_Booking_Analysis/
 │   ├── extract.py                         # Module trích xuất và nạp dữ liệu tự động
 │   ├── transform.py                       # Module làm sạch & Feature Engineering (ETL Pipeline)
 │   ├── eda.py                             # Module tự động xuất 8 biểu đồ phân tích kinh doanh
-│   └── ml.py                              # Module huấn luyện K-Means, PCA & xuất 5 biểu đồ ML
+│   └── ml.py                              # Module huấn luyện K-Means, PCA & xuất 7 biểu đồ ML và bảng Profile
 │
 ├── reports/
 │   ├── README.md                          # Mục lục tổng quan hệ thống báo cáo
@@ -60,7 +65,8 @@ Hotel_Booking_Analysis/
 │   │   └── figures/                       # 8 biểu đồ phân tích EDA (300 DPI)
 │   └── ml/
 │       ├── README.md                      # Báo cáo chuyên sâu Mô hình Machine Learning & 4 Personas
-│       └── figures/                       # 5 biểu đồ đánh giá mô hình ML (300 DPI)
+│       ├── cluster_profiles.csv           # Bảng thông số thống kê chi tiết từng cụm
+│       └── figures/                       # 7 biểu đồ đánh giá mô hình ML (300 DPI)
 │
 ├── requirements.txt                       # Danh mục thư viện và phiên bản phụ thuộc
 ├── .gitignore                             # Cấu hình bỏ qua các file rác và cache
@@ -69,7 +75,7 @@ Hotel_Booking_Analysis/
 
 ---
 
-## 📑 DANH MỤC NOTEBOOKS & BÁO CÁO CHI TIẾT
+## DANH MỤC NOTEBOOKS & BÁO CÁO CHI TIẾT
 
 ### 1. Hệ thống Jupyter Notebooks (`notebook/`)
 | Notebook | Mô tả nội dung |
@@ -84,12 +90,12 @@ Hotel_Booking_Analysis/
 | Báo cáo | Mô tả nội dung |
 | :--- | :--- |
 | [**Báo cáo Khai phá Dữ liệu (EDA Report)**](reports/eda/README.md) | Diễn giải toàn diện 8 biểu đồ kinh doanh, phân tích rủi ro hủy phòng, chiến lược định giá mùa vụ và ma trận hành động. |
-| [**Báo cáo Machine Learning (ML Report)**](reports/ml/README.md) | Đánh giá 4 chỉ số toán học ($k=4$), phân tích phương sai PCA, Radar Chart 4 phân khúc và hướng dẫn tích hợp vào hệ thống. |
+| [**Báo cáo Machine Learning (ML Report)**](reports/ml/README.md) | Cơ sở toán học, đánh giá $k=4$, ma trận trọng số PCA Loadings, Radar Chart 4 Personas, chỉ số đóng góp doanh thu và kiến trúc MLOps phục vụ thực tế (kèm 7 biểu đồ tại `reports/ml/figures/` và `cluster_profiles.csv`). |
 | [**Mục lục Báo cáo (Reports Hub)**](reports/README.md) | Trang điều hướng trung tâm liên kết tất cả các báo cáo và biểu đồ trong dự án. |
 
 ---
 
-## 🛠️ HƯỚNG DẪN CÀI ĐẶT & THỰC THI (HOW TO RUN)
+## HƯỚNG DẪN CÀI ĐẶT & THỰC THI (HOW TO RUN)
 
 ### Bước 1: Clone repository và cài đặt thư viện
 ```bash
@@ -112,13 +118,13 @@ python src/transform.py
 # Tạo 8 biểu đồ phân tích kinh doanh (lưu tại reports/eda/figures/)
 python src/eda.py
 
-# Huấn luyện mô hình ML và tạo 5 biểu đồ phân cụm (lưu tại reports/ml/figures/)
+# Huấn luyện mô hình ML và tạo 7 biểu đồ phân cụm (lưu tại reports/ml/figures/)
 python src/ml.py
 ```
 
 ---
 
-## 💻 CÔNG NGHỆ & THƯ VIỆN SỬ DỤNG (TECH STACK)
+## CÔNG NGHỆ & THƯ VIỆN SỬ DỤNG (TECH STACK)
 
 * **Ngôn ngữ**: Python 3.11+
 * **Xử lý Dữ liệu**: `pandas`, `numpy`
