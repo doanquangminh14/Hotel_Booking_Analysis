@@ -55,30 +55,30 @@ def evaluate_optimal_k(X_scaled: np.ndarray, fig_dir: Path) -> dict:
     
     axes[0, 0].plot(k_range, inertias, marker='o', color='#2980b9', linewidth=2.5)
     axes[0, 0].set_title('Elbow Method (Inertia / WCSS)', fontweight='bold', fontsize=12)
-    axes[0, 0].set_xlabel('So cum (k)')
-    axes[0, 0].set_ylabel('Inertia (Tong binh phuong khoang cach noi cum)')
-    axes[0, 0].axvline(x=4, color='#c0392b', linestyle='--', linewidth=1.5, label='k=4 (Diem chon)')
+    axes[0, 0].set_xlabel('Số cụm (k)')
+    axes[0, 0].set_ylabel('Inertia (Tổng bình phương khoảng cách nội cụm)')
+    axes[0, 0].axvline(x=4, color='#c0392b', linestyle='--', linewidth=1.5, label='k=4 (Điểm chọn)')
     axes[0, 0].legend()
     
     axes[0, 1].plot(k_range, sil_scores, marker='s', color='#27ae60', linewidth=2.5)
-    axes[0, 1].set_title('Silhouette Score (Do tach biet & gan ket)', fontweight='bold', fontsize=12)
-    axes[0, 1].set_xlabel('So cum (k)')
+    axes[0, 1].set_title('Silhouette Score (Độ tách biệt & gắn kết)', fontweight='bold', fontsize=12)
+    axes[0, 1].set_xlabel('Số cụm (k)')
     axes[0, 1].set_ylabel('Silhouette Score')
-    axes[0, 1].axvline(x=4, color='#c0392b', linestyle='--', linewidth=1.5, label='k=4 (Diem chon)')
+    axes[0, 1].axvline(x=4, color='#c0392b', linestyle='--', linewidth=1.5, label='k=4 (Điểm chọn)')
     axes[0, 1].legend()
     
     axes[1, 0].plot(k_range, db_scores, marker='^', color='#e67e22', linewidth=2.5)
-    axes[1, 0].set_title('Davies-Bouldin Index (Gia tri nho hon la tot hon)', fontweight='bold', fontsize=12)
-    axes[1, 0].set_xlabel('So cum (k)')
+    axes[1, 0].set_title('Davies-Bouldin Index (Giá trị nhỏ hơn là tốt hơn)', fontweight='bold', fontsize=12)
+    axes[1, 0].set_xlabel('Số cụm (k)')
     axes[1, 0].set_ylabel('Davies-Bouldin Index')
-    axes[1, 0].axvline(x=4, color='#c0392b', linestyle='--', linewidth=1.5, label='k=4 (Diem chon)')
+    axes[1, 0].axvline(x=4, color='#c0392b', linestyle='--', linewidth=1.5, label='k=4 (Điểm chọn)')
     axes[1, 0].legend()
     
     axes[1, 1].plot(k_range, ch_scores, marker='d', color='#8e44ad', linewidth=2.5)
-    axes[1, 1].set_title('Calinski-Harabasz Index (Gia tri lon hon la tot hon)', fontweight='bold', fontsize=12)
-    axes[1, 1].set_xlabel('So cum (k)')
+    axes[1, 1].set_title('Calinski-Harabasz Index (Giá trị lớn hơn là tốt hơn)', fontweight='bold', fontsize=12)
+    axes[1, 1].set_xlabel('Số cụm (k)')
     axes[1, 1].set_ylabel('Calinski-Harabasz Score')
-    axes[1, 1].axvline(x=4, color='#c0392b', linestyle='--', linewidth=1.5, label='k=4 (Diem chon)')
+    axes[1, 1].axvline(x=4, color='#c0392b', linestyle='--', linewidth=1.5, label='k=4 (Điểm chọn)')
     axes[1, 1].legend()
     
     plt.tight_layout()
@@ -104,18 +104,18 @@ def plot_pca_variance(X_scaled: np.ndarray, fig_dir: Path) -> PCA:
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.8))
     
     axes[0].bar(range(1, len(exp_var) + 1), exp_var, color='#3498db', edgecolor='black', alpha=0.85)
-    axes[0].set_title('Phuong sai giai thich theo tung PC (Scree Plot)', fontweight='bold', fontsize=11)
-    axes[0].set_xlabel('Thanh phan chinh (Principal Component)')
-    axes[0].set_ylabel('% Phuong sai giai thich')
+    axes[0].set_title('Phương sai giải thích theo từng PC (Scree Plot)', fontweight='bold', fontsize=11)
+    axes[0].set_xlabel('Thành phần chính (Principal Component)')
+    axes[0].set_ylabel('% Phương sai giải thích')
     for p in axes[0].patches:
         axes[0].annotate(f'{p.get_height():.1f}%', (p.get_x() + p.get_width() / 2., p.get_height() + 0.5),
                          ha='center', va='bottom', fontsize=9)
                          
     axes[1].plot(range(1, len(cum_var) + 1), cum_var, marker='o', color='#e74c3c', linewidth=2.5)
-    axes[1].axhline(y=50, color='grey', linestyle='--', alpha=0.7, label='Nguong 50% phuong sai')
-    axes[1].set_title('Phuong sai tich luy giai thich (Cumulative Variance)', fontweight='bold', fontsize=11)
-    axes[1].set_xlabel('So luong thanh phan chinh')
-    axes[1].set_ylabel('% Phuong sai tich luy')
+    axes[1].axhline(y=50, color='grey', linestyle='--', alpha=0.7, label='Ngưỡng 50% phương sai')
+    axes[1].set_title('Phương sai tích lũy giải thích (Cumulative Variance)', fontweight='bold', fontsize=11)
+    axes[1].set_xlabel('Số lượng thành phần chính')
+    axes[1].set_ylabel('% Phương sai tích lũy')
     axes[1].legend()
     for x_val, y_val in zip(range(1, len(cum_var) + 1), cum_var):
         axes[1].annotate(f'{y_val:.1f}%', (x_val, y_val + 1.5), ha='center', fontsize=9)
@@ -136,9 +136,9 @@ def plot_pca_loadings(pca: PCA, features: list[str], fig_dir: Path) -> pd.DataFr
     
     plt.figure(figsize=(10, 8))
     sns.heatmap(loadings_df, annot=True, fmt='.2f', cmap='coolwarm', center=0, cbar=True, linewidths=0.5)
-    plt.title('Ma tran trong so dac trung PCA (Principal Component Loadings Matrix)', fontweight='bold', fontsize=12, pad=12)
-    plt.xlabel('Thanh phan chinh')
-    plt.ylabel('Dac trung mo hinh (Features)')
+    plt.title('Ma trận trọng số đặc trưng PCA (Principal Component Loadings Matrix)', fontweight='bold', fontsize=12, pad=12)
+    plt.xlabel('Thành phần chính')
+    plt.ylabel('Đặc trưng mô hình (Features)')
     plt.tight_layout()
     
     output_path = fig_dir / "06_pca_feature_loadings.png"
@@ -152,10 +152,10 @@ def plot_pca_2d_clusters(df_cust: pd.DataFrame, kmeans: KMeans, pca: PCA, fig_di
     
     sample_df = df_cust.sample(min(8000, len(df_cust)), random_state=42)
     cluster_names = {
-        0: 'Cum 0: Gia dinh cao cap',
-        1: 'Cum 1: Nghi duong dai ngay',
-        2: 'Cum 2: Cap doi tieu chuan',
-        3: 'Cum 3: Khach cong tac & quen'
+        0: 'Cụm 0: Gia đình cao cấp',
+        1: 'Cụm 1: Nghỉ dưỡng dài ngày',
+        2: 'Cụm 2: Cặp đôi tiêu chuẩn',
+        3: 'Cụm 3: Khách công tác & quen'
     }
     sample_df['cluster_name'] = sample_df['cluster'].map(cluster_names)
     
@@ -173,13 +173,13 @@ def plot_pca_2d_clusters(df_cust: pd.DataFrame, kmeans: KMeans, pca: PCA, fig_di
     centers_pca = pca.transform(kmeans.cluster_centers_)
     plt.scatter(
         centers_pca[:, 0], centers_pca[:, 1],
-        s=250, c='black', marker='X', edgecolor='white', linewidth=2, label='Centroids (Tam cum)'
+        s=250, c='black', marker='X', edgecolor='white', linewidth=2, label='Centroids (Tâm cụm)'
     )
     
-    plt.title('Truc quan hoa 4 Phan khuc Khach hang trong khong gian 2D PCA', fontweight='bold', fontsize=13, pad=15)
-    plt.xlabel('Thanh phan chinh 1 (PC1 - Thoi luong & Dat truoc)')
-    plt.ylabel('Thanh phan chinh 2 (PC2 - Doan khach & Muc chi tieu ADR)')
-    plt.legend(title='Phan khuc (Cluster)', loc='upper right')
+    plt.title('Trực quan hóa 4 Phân khúc Khách hàng trong không gian 2D PCA', fontweight='bold', fontsize=13, pad=15)
+    plt.xlabel('Thành phần chính 1 (PC1 - Thời lượng & Đặt trước)')
+    plt.ylabel('Thành phần chính 2 (PC2 - Đoàn khách & Mức chi tiêu ADR)')
+    plt.legend(title='Phân khúc (Cluster)', loc='upper right')
     
     plt.tight_layout()
     output_path = fig_dir / "03_pca_2d_clusters.png"
@@ -190,12 +190,12 @@ def plot_cluster_feature_distributions(df_cust: pd.DataFrame, fig_dir: Path) -> 
     fig, axes = plt.subplots(2, 3, figsize=(16, 9))
     
     metrics = [
-        ('lead_time', 'Thoi gian dat truoc (ngay)'),
-        ('total_stay', 'Tong so dem luu tru'),
-        ('total_guests', 'So luong khach trung binh'),
-        ('adr', 'Gia phong TB / dem (ADR EUR)'),
-        ('total_of_special_requests', 'So yeu cau dac biet TB'),
-        ('is_repeated_guest', 'Ty le khach quen quay lai')
+        ('lead_time', 'Thời gian đặt trước (ngày)'),
+        ('total_stay', 'Tổng số đêm lưu trú'),
+        ('total_guests', 'Số lượng khách trung bình'),
+        ('adr', 'Giá phòng TB / đêm (ADR EUR)'),
+        ('total_of_special_requests', 'Số yêu cầu đặc biệt TB'),
+        ('is_repeated_guest', 'Tỷ lệ khách quen quay lại')
     ]
     
     for idx, (col, title) in enumerate(metrics):
@@ -203,8 +203,8 @@ def plot_cluster_feature_distributions(df_cust: pd.DataFrame, fig_dir: Path) -> 
         mean_vals = df_cust.groupby('cluster')[col].mean()
         sns.barplot(x=mean_vals.index, y=mean_vals.values, hue=mean_vals.index, ax=ax, palette=CLUSTER_PALETTE, edgecolor='black', legend=False)
         ax.set_title(title, fontweight='bold', fontsize=11)
-        ax.set_xlabel('Cum (Cluster)')
-        ax.set_ylabel('Gia tri TB')
+        ax.set_xlabel('Cụm (Cluster)')
+        ax.set_ylabel('Giá trị TB')
         for p in ax.patches:
             val_format = f'{p.get_height():.2f}' if p.get_height() < 1 else f'{p.get_height():.1f}'
             ax.annotate(val_format, (p.get_x() + p.get_width() / 2., p.get_height() / 2),
@@ -229,10 +229,10 @@ def plot_radar_personas(df_cust: pd.DataFrame, fig_dir: Path) -> None:
     plt.xticks(angles[:-1], categories, color='#333333', size=11, fontweight='bold')
     
     cluster_labels = [
-        'Cluster 0: Gia dinh cao cap',
-        'Cluster 1: Cap doi tieu chuan',
-        'Cluster 2: Nghi duong dai ngay',
-        'Cluster 3: Khach cong tac & quen'
+        'Cluster 0: Gia đình cao cấp',
+        'Cluster 1: Cặp đôi tiêu chuẩn',
+        'Cluster 2: Nghỉ dưỡng dài ngày',
+        'Cluster 3: Khách công tác & quen'
     ]
     
     for i in range(4):
@@ -241,7 +241,7 @@ def plot_radar_personas(df_cust: pd.DataFrame, fig_dir: Path) -> None:
         ax.plot(angles, values, linewidth=2.5, linestyle='solid', label=cluster_labels[i], color=CLUSTER_PALETTE[i])
         ax.fill(angles, values, color=CLUSTER_PALETTE[i], alpha=0.15)
         
-    plt.title('Radar Chart: So sanh dac tinh 4 Phan khuc Khach hang', size=13, fontweight='bold', y=1.08)
+    plt.title('Radar Chart: So sánh đặc tính 4 Phân khúc Khách hàng', size=13, fontweight='bold', y=1.08)
     plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1), fontsize=9)
     
     plt.tight_layout()
@@ -252,37 +252,37 @@ def plot_radar_personas(df_cust: pd.DataFrame, fig_dir: Path) -> None:
 def plot_cluster_business_metrics(df_cust: pd.DataFrame, fig_dir: Path) -> None:
     fig, axes = plt.subplots(1, 3, figsize=(16, 5))
     
-    # 1. Doanh thu tong hop theo cum
+    # 1. Doanh thu tổng hợp theo cụm
     df_cust['total_revenue'] = df_cust['total_stay'] * df_cust['adr']
     rev_by_cluster = df_cust.groupby('cluster')['total_revenue'].sum()
     rev_pct = rev_by_cluster / rev_by_cluster.sum() * 100
     
     axes[0].pie(
         rev_pct.values,
-        labels=[f'Cum {i}' for i in rev_pct.index],
+        labels=[f'Cụm {i}' for i in rev_pct.index],
         autopct='%1.1f%%',
         colors=CLUSTER_PALETTE,
         startangle=140,
         wedgeprops=dict(edgecolor='black', linewidth=1)
     )
-    axes[0].set_title('Ty trong dong gop Doanh thu theo Cum', fontweight='bold', fontsize=11)
+    axes[0].set_title('Tỷ trọng đóng góp Doanh thu theo Cụm', fontweight='bold', fontsize=11)
     
-    # 2. Gia tri don dat phong trung binh (Average Booking Value)
+    # 2. Giá trị đơn đặt phòng trung bình (Average Booking Value)
     avg_booking_val = df_cust.groupby('cluster')['total_revenue'].mean()
     sns.barplot(x=avg_booking_val.index, y=avg_booking_val.values, hue=avg_booking_val.index, ax=axes[1], palette=CLUSTER_PALETTE, edgecolor='black', legend=False)
-    axes[1].set_title('Gia tri don dat trung binh (EUR / Booking)', fontweight='bold', fontsize=11)
-    axes[1].set_xlabel('Cum (Cluster)')
-    axes[1].set_ylabel('Gia tri trung binh (EUR)')
+    axes[1].set_title('Giá trị đơn đặt trung bình (EUR / Booking)', fontweight='bold', fontsize=11)
+    axes[1].set_xlabel('Cụm (Cluster)')
+    axes[1].set_ylabel('Giá trị trung bình (EUR)')
     for p in axes[1].patches:
         axes[1].annotate(f'{p.get_height():.1f} EUR', (p.get_x() + p.get_width() / 2., p.get_height() / 2),
                          ha='center', va='center', fontsize=10, color='white', fontweight='bold')
                          
-    # 3. Ty le don dat qua OTA theo cum
+    # 3. Tỷ lệ đơn đặt qua OTA theo cụm
     ota_ratio = df_cust.groupby('cluster')['market_segment'].apply(lambda s: (s == 'Online TA').mean() * 100)
     sns.barplot(x=ota_ratio.index, y=ota_ratio.values, hue=ota_ratio.index, ax=axes[2], palette=CLUSTER_PALETTE, edgecolor='black', legend=False)
-    axes[2].set_title('Ty le dat phong qua Online TA (%)', fontweight='bold', fontsize=11)
-    axes[2].set_xlabel('Cum (Cluster)')
-    axes[2].set_ylabel('Ty le (%)')
+    axes[2].set_title('Tỷ lệ đặt phòng qua Online TA (%)', fontweight='bold', fontsize=11)
+    axes[2].set_xlabel('Cụm (Cluster)')
+    axes[2].set_ylabel('Tỷ lệ (%)')
     for p in axes[2].patches:
         axes[2].annotate(f'{p.get_height():.1f}%', (p.get_x() + p.get_width() / 2., p.get_height() / 2),
                          ha='center', va='center', fontsize=10, color='white', fontweight='bold')

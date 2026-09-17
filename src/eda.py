@@ -29,18 +29,18 @@ def plot_cancellation_by_hotel_and_segment(df: pd.DataFrame, fig_dir: Path) -> N
     
     hotel_cancel = df.groupby('hotel')['is_canceled'].mean() * 100
     sns.barplot(x=hotel_cancel.index, y=hotel_cancel.values, ax=axes[0], palette=['#3498db', '#e74c3c'], edgecolor='black')
-    axes[0].set_title('Ty le huy phong theo Loai khach san', fontweight='bold', fontsize=12)
-    axes[0].set_ylabel('Ty le huy (%)')
-    axes[0].set_xlabel('Loai khach san')
+    axes[0].set_title('Tỷ lệ hủy phòng theo Loại khách sạn', fontweight='bold', fontsize=12)
+    axes[0].set_ylabel('Tỷ lệ hủy (%)')
+    axes[0].set_xlabel('Loại khách sạn')
     for p in axes[0].patches:
         axes[0].annotate(f'{p.get_height():.1f}%', (p.get_x() + p.get_width() / 2., p.get_height() / 2),
                          ha='center', va='center', fontsize=11, color='white', fontweight='bold')
     
     seg_cancel = df.groupby('market_segment')['is_canceled'].mean().sort_values(ascending=False) * 100
     sns.barplot(x=seg_cancel.values, y=seg_cancel.index, ax=axes[1], palette='viridis', edgecolor='black')
-    axes[1].set_title('Ty le huy phong theo Phan khuc thi truong', fontweight='bold', fontsize=12)
-    axes[1].set_xlabel('Ty le huy (%)')
-    axes[1].set_ylabel('Phan khuc thi truong')
+    axes[1].set_title('Tỷ lệ hủy phòng theo Phân khúc thị trường', fontweight='bold', fontsize=12)
+    axes[1].set_xlabel('Tỷ lệ hủy (%)')
+    axes[1].set_ylabel('Phân khúc thị trường')
     for p in axes[1].patches:
         axes[1].annotate(f'{p.get_width():.1f}%', (p.get_width() + 1, p.get_y() + p.get_height() / 2),
                          ha='left', va='center', fontsize=10)
@@ -72,11 +72,11 @@ def plot_adr_seasonality_and_trend(df: pd.DataFrame, fig_dir: Path) -> None:
         linewidth=2.5,
         palette=['#2980b9', '#e67e22']
     )
-    plt.title('Bien dong gia phong trung binh (ADR) theo thang trong nam', fontweight='bold', fontsize=13, pad=15)
-    plt.xlabel('Thang den')
-    plt.ylabel('Gia phong trung binh (ADR EUR)')
+    plt.title('Biến động giá phòng trung bình (ADR) theo tháng trong năm', fontweight='bold', fontsize=13, pad=15)
+    plt.xlabel('Tháng đến')
+    plt.ylabel('Giá phòng trung bình (ADR EUR)')
     plt.xticks(rotation=30)
-    plt.legend(title='Loai khach san')
+    plt.legend(title='Loại khách sạn')
     
     plt.tight_layout()
     output_path = fig_dir / "02_adr_seasonality_and_trend.png"
@@ -96,9 +96,9 @@ def plot_lead_time_vs_cancellation(df: pd.DataFrame, fig_dir: Path) -> None:
         palette='Blues_r',
         edgecolor='black'
     )
-    plt.title('Moi quan he giua Thoi gian dat truoc (Lead Time) va Ty le huy phong', fontweight='bold', fontsize=13, pad=15)
-    plt.xlabel('Nhom thoi gian dat truoc')
-    plt.ylabel('Ty le huy phong (%)')
+    plt.title('Mối quan hệ giữa Thời gian đặt trước (Lead Time) và Tỷ lệ hủy phòng', fontweight='bold', fontsize=13, pad=15)
+    plt.xlabel('Nhóm thời gian đặt trước')
+    plt.ylabel('Tỷ lệ hủy phòng (%)')
     plt.xticks(rotation=15)
     
     for p in ax.patches:
@@ -123,9 +123,9 @@ def plot_deposit_type_cancellation(df: pd.DataFrame, fig_dir: Path) -> None:
         palette=['#27ae60', '#c0392b', '#f39c12'],
         edgecolor='black'
     )
-    plt.title('Ty le huy phong theo Chinh sach dat coc (Deposit Type)', fontweight='bold', fontsize=13, pad=15)
-    plt.xlabel('Loai dat coc')
-    plt.ylabel('Ty le huy phong (%)')
+    plt.title('Tỷ lệ hủy phòng theo Chính sách đặt cọc (Deposit Type)', fontweight='bold', fontsize=13, pad=15)
+    plt.xlabel('Loại đặt cọc')
+    plt.ylabel('Tỷ lệ hủy phòng (%)')
     
     for p in ax.patches:
         ax.annotate(f'{p.get_height():.1f}%', (p.get_x() + p.get_width() / 2., p.get_height() + 1),
@@ -154,7 +154,7 @@ def plot_party_composition_and_spending(df: pd.DataFrame, fig_dir: Path) -> None
         startangle=140,
         wedgeprops=dict(edgecolor='white', linewidth=2)
     )
-    axes[0].set_title('Co cau nhom khach hang (Party Composition)', fontweight='bold', fontsize=12)
+    axes[0].set_title('Cơ cấu nhóm khách hàng (Party Composition)', fontweight='bold', fontsize=12)
     
     df_valid = df[df['is_canceled'] == 0]
     adr_party = {
@@ -171,9 +171,9 @@ def plot_party_composition_and_spending(df: pd.DataFrame, fig_dir: Path) -> None
         palette=['#3498db', '#2ecc71', '#e74c3c', '#f39c12'],
         edgecolor='black'
     )
-    axes[1].set_title('Gia phong trung binh (ADR) theo Co cau khach', fontweight='bold', fontsize=12)
-    axes[1].set_ylabel('Gia phong TB (EUR)')
-    axes[1].set_xlabel('Nhom khach')
+    axes[1].set_title('Giá phòng trung bình (ADR) theo Cơ cấu khách', fontweight='bold', fontsize=12)
+    axes[1].set_ylabel('Giá phòng TB (EUR)')
+    axes[1].set_xlabel('Nhóm khách')
     for p in axes[1].patches:
         axes[1].annotate(f'{p.get_height():.1f} EUR', (p.get_x() + p.get_width() / 2., p.get_height() / 2),
                          ha='center', va='center', fontsize=10, color='white', fontweight='bold')
@@ -196,9 +196,9 @@ def plot_special_requests_vs_cancellation(df: pd.DataFrame, fig_dir: Path) -> No
         palette='Greens_r',
         edgecolor='black'
     )
-    plt.title('Anh huong cua So luong yeu cau dac biet den Ty le huy phong', fontweight='bold', fontsize=13, pad=15)
-    plt.xlabel('So luong yeu cau dac biet (Special Requests)')
-    plt.ylabel('Ty le huy phong (%)')
+    plt.title('Ảnh hưởng của Số lượng yêu cầu đặc biệt đến Tỷ lệ hủy phòng', fontweight='bold', fontsize=13, pad=15)
+    plt.xlabel('Số lượng yêu cầu đặc biệt (Special Requests)')
+    plt.ylabel('Tỷ lệ hủy phòng (%)')
     
     for p in ax.patches:
         ax.annotate(f'{p.get_height():.1f}%', (p.get_x() + p.get_width() / 2., p.get_height() + 0.8),
@@ -223,9 +223,9 @@ def plot_top_countries(df: pd.DataFrame, fig_dir: Path) -> None:
         palette='crest',
         edgecolor='black'
     )
-    plt.title('Top 10 Quoc gia co luong khach luu tru lon nhat', fontweight='bold', fontsize=13, pad=15)
-    plt.xlabel('Ma quoc gia (Country Code)')
-    plt.ylabel('So luong don hoan tat')
+    plt.title('Top 10 Quốc gia có lượng khách lưu trú lớn nhất', fontweight='bold', fontsize=13, pad=15)
+    plt.xlabel('Mã quốc gia (Country Code)')
+    plt.ylabel('Số lượng đơn hoàn tất')
     
     for p in ax.patches:
         ax.annotate(f'{int(p.get_height()):,}', (p.get_x() + p.get_width() / 2., p.get_height() + 200),
@@ -268,10 +268,10 @@ def plot_clustering_personas(df: pd.DataFrame, fig_dir: Path) -> None:
         centers_pca[:, 0], centers_pca[:, 1],
         s=200, c='black', marker='X', edgecolor='white', linewidth=1.5, label='Centroids'
     )
-    ax1.set_title('Khong gian 4 Phan khuc Khach hang (PCA 2D)', fontweight='bold', fontsize=12)
+    ax1.set_title('Không gian 4 Phân khúc Khách hàng (PCA 2D)', fontweight='bold', fontsize=12)
     ax1.set_xlabel('Principal Component 1')
     ax1.set_ylabel('Principal Component 2')
-    ax1.legend(title='Cum (Cluster)')
+    ax1.legend(title='Cụm (Cluster)')
     
     ax2 = fig.add_subplot(1, 2, 2, polar=True)
     profile_cols = ['lead_time', 'total_stay', 'total_guests', 'adr', 'total_of_special_requests', 'is_repeated_guest']
@@ -286,10 +286,10 @@ def plot_clustering_personas(df: pd.DataFrame, fig_dir: Path) -> None:
     plt.xticks(angles[:-1], categories, color='grey', size=10, fontweight='bold')
     
     cluster_labels = [
-        'Cluster 0: Gia dinh cao cap',
-        'Cluster 1: Nghi duong dai ngay',
-        'Cluster 2: Cap doi tieu chuan',
-        'Cluster 3: Khach cong tac & quen'
+        'Cluster 0: Gia đình cao cấp',
+        'Cluster 1: Nghỉ dưỡng dài ngày',
+        'Cluster 2: Cặp đôi tiêu chuẩn',
+        'Cluster 3: Khách công tác & quen'
     ]
     
     for i in range(4):
@@ -298,7 +298,7 @@ def plot_clustering_personas(df: pd.DataFrame, fig_dir: Path) -> None:
         ax2.plot(angles, values, linewidth=2, linestyle='solid', label=cluster_labels[i], color=palette[i])
         ax2.fill(angles, values, color=palette[i], alpha=0.12)
         
-    ax2.set_title('Radar Chart: Chuc nang va dac tinh 4 Cum', fontweight='bold', fontsize=12, y=1.08)
+    ax2.set_title('Radar Chart: Chức năng và đặc tính 4 Cụm', fontweight='bold', fontsize=12, y=1.08)
     ax2.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1), fontsize=9)
     
     plt.tight_layout()
