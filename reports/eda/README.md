@@ -155,10 +155,10 @@ Mô hình **K-Means Clustering ($k=4$)** kết hợp giảm chiều **PCA** đã
 
 | Cụm | Tên chân dung | Quy mô (%) | Đặc điểm nhận diện cốt lõi | Chiến lược tiếp thị & Vận hành |
 | :---: | :--- | :---: | :--- | :--- |
-| **Cluster 0** | **Gia đình nghỉ dưỡng cao cấp** | ~9.3% | • 100% có trẻ nhỏ / trẻ sơ sinh.<br>• Giá phòng ADR cao nhất (~143 EUR).<br>• Tỷ lệ cần bãi đỗ xe cao nhất (18.8%). | Cung cấp gói phòng Family Suite, miễn phí bữa sáng cho trẻ em, dịch vụ giữ xe ưu tiên và các hoạt động trải nghiệm gia đình. |
-| **Cluster 1** | **Khách nghỉ dưỡng dài ngày** | ~15.8% | • Thời gian lưu trú dài nhất (~7.9 đêm).<br>• Đặt trước rất xa (~141 ngày).<br>• Chủ yếu đi vào mùa hè tại Resort. | Chính sách giá giảm lũy tiến cho kỳ lưu trú trên 5 đêm, tặng kèm voucher ẩm thực/Spa, gói ăn trọn gói (Full-Board). |
-| **Cluster 2** | **Cặp đôi tiêu chuẩn** | ~55.3% | • Chiếm đa số lượng khách.<br>• Đi theo cặp đôi (2 người lớn, không trẻ em).<br>• Lưu trú ngắn-vừa (~2.7 đêm), đặt qua OTA. | Cung cấp mã giảm giá 5-10% nếu đặt trực tiếp qua website, gói kỷ niệm/lãng mạn kèm rượu vang hoặc hoa tươi. |
-| **Cluster 3** | **Khách công tác & Khách quen** | ~19.5% | • Khách đi 1 mình (Solo).<br>• Đặt rất gấp (`lead_time` ~36 ngày).<br>• Tỷ lệ khách quen quay lại cao nhất (16.5%). | Chương trình hội viên tích điểm (Loyalty Program), tiện ích phòng làm việc, Wi-Fi tốc độ cao, check-in sớm / check-out trễ linh hoạt. |
+| **Cluster 0** | **Gia đình nghỉ dưỡng cao cấp** | 9.3% | • 100% có trẻ nhỏ / trẻ sơ sinh (quy mô TB 3.36 người).<br>• Giá phòng ADR cao nhất toàn khách sạn (**149.8 EUR**).<br>• Nhu cầu bãi đỗ xe cao nhất (**18.8%**), yêu cầu đặc biệt cao nhất (**1.12**). | Cung cấp gói phòng Family Suite, miễn phí bữa sáng cho trẻ em, dịch vụ giữ xe ưu tiên và các hoạt động trải nghiệm gia đình. |
+| **Cluster 1** | **Cặp đôi tiêu chuẩn** | 55.2% | • Phân khúc chủ lực chiếm 43.4% tổng doanh thu.<br>• Đi theo cặp đôi (2 người lớn, không trẻ em).<br>• Lưu trú ngắn-vừa (**2.7 đêm**), đặt chủ yếu qua OTA (**61.6%**). | Cung cấp mã giảm giá 5-10% nếu đặt trực tiếp qua website, gói kỷ niệm/lãng mạn kèm rượu vang hoặc hoa tươi. |
+| **Cluster 2** | **Khách nghỉ dưỡng dài ngày** | 16.1% | • Thời gian lưu trú dài nhất (**7.9 đêm**).<br>• Đặt trước rất xa (**139.1 ngày**).<br>• Giá trị đơn đặt cao nhất toàn khách sạn (**762.4 EUR/đơn**). | Chính sách giá giảm lũy tiến cho kỳ lưu trú trên 5 đêm, tặng kèm voucher ẩm thực/Spa, gói ăn trọn gói (Full-Board). |
+| **Cluster 3** | **Khách công tác & Khách quen** | 19.5% | • Khách đi 1 mình (Solo, quy mô 1.0 người).<br>• Đặt rất gấp (`lead_time` **36.2 ngày**).<br>• Tỷ lệ khách quen quay lại cao nhất (**16.5%**), chi tiêu đầu người cao nhất (**77.1 EUR/người**). | Chương trình hội viên tích điểm (Loyalty Program), tiện ích phòng làm việc, Wi-Fi tốc độ cao, check-in sớm / check-out trễ linh hoạt. |
 
 ---
 
