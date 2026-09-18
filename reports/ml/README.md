@@ -126,19 +126,22 @@ Trên không gian 2 chiều PCA cùng các tâm cụm đại diện (đánh dấ
 ![Cluster Business Metrics](figures/07_cluster_business_metrics.png)
 
 1. **Tỷ trọng đóng góp doanh thu (Revenue Contribution)**:
-   * **Cụm 1 (Cặp đôi tiêu chuẩn)**: Đóng góp lớn nhất vào tổng doanh thu phòng (**48.5%**) nhờ số lượng đặt phòng áp đảo.
-   * **Cụm 2 (Nghỉ dưỡng dài ngày)**: Đóng góp **34.6%** tổng doanh thu dù chỉ chiếm 15.8% lượt đặt, nhờ thời gian lưu trú vượt trội (gần 8 đêm/đơn).
-   * **Cụm 0 (Gia đình cao cấp)**: Đóng góp **11.9%** doanh thu với mức giá phòng trung bình cao nhất.
-   * **Cụm 3 (Khách công tác)**: Đóng góp **5.0%** doanh thu lưu trú.
+   * **Cụm 1 (Cặp đôi tiêu chuẩn)**: Đóng góp lớn nhất vào tổng doanh thu phòng (**43.4%**) nhờ số lượng đặt phòng áp đảo.
+   * **Cụm 2 (Nghỉ dưỡng dài ngày)**: Đóng góp **33.7%** tổng doanh thu dù chỉ chiếm 16.1% lượt đặt, nhờ thời gian lưu trú vượt trội (gần 8 đêm/đơn).
+   * **Cụm 0 (Gia đình cao cấp)**: Đóng góp **13.7%** doanh thu với mức giá phòng trung bình cao nhất.
+   * **Cụm 3 (Khách công tác)**: Đóng góp **9.2%** doanh thu lưu trú.
 
 2. **Giá trị đơn đặt phòng trung bình (Average Booking Value)**:
-   * **Cụm 2 (Nghỉ dưỡng dài ngày)**: Đạt **774.2 EUR / đơn đặt** (cao nhất toàn khách sạn).
-   * **Cụm 0 (Gia đình cao cấp)**: Đạt **524.3 EUR / đơn đặt**.
-   * **Cụm 1 (Cặp đôi tiêu chuẩn)**: Đạt **280.3 EUR / đơn đặt**.
-   * **Cụm 3 (Khách công tác)**: Đạt **162.8 EUR / đơn đặt**.
+   * **Cụm 2 (Nghỉ dưỡng dài ngày)**: Đạt **762.4 EUR / đơn đặt** (cao nhất toàn khách sạn).
+   * **Cụm 0 (Gia đình cao cấp)**: Đạt **536.5 EUR / đơn đặt**.
+   * **Cụm 1 (Cặp đôi tiêu chuẩn)**: Đạt **285.9 EUR / đơn đặt**.
+   * **Cụm 3 (Khách công tác)**: Đạt **170.7 EUR / đơn đặt**.
 
 3. **Tỷ lệ phụ thuộc kênh đại lý trực tuyến (Online TA Share)**:
-   * Cụm 1 và Cụm 2 phụ thuộc rất lớn vào các đại lý trực tuyến OTA (>65%), trong khi Cụm 3 có tỷ trọng đặt phòng trực tiếp và kênh doanh nghiệp cao vượt trội.
+   * **Cụm 0 (Gia đình cao cấp)**: **63.7%** đơn đặt qua Online TA.
+   * **Cụm 1 (Cặp đôi tiêu chuẩn)**: **61.6%** đơn đặt qua Online TA.
+   * **Cụm 2 (Nghỉ dưỡng dài ngày)**: **41.7%** đơn đặt qua Online TA.
+   * **Cụm 3 (Khách công tác)**: **31.4%** đơn đặt qua Online TA (có tỷ trọng đặt trực tiếp và kênh doanh nghiệp cao nhất).
 
 ---
 

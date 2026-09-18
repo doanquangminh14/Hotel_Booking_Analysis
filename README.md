@@ -28,9 +28,9 @@ Tập dữ liệu chứa **119,390 bản ghi** đặt phòng từ 2 loại hình
 * **Doanh thu & Mùa vụ**: Resort Hotel bùng nổ doanh thu vào mùa hè tháng 7-8 (ADR >150 EUR/đêm) nhưng suy giảm mạnh vào mùa đông. City Hotel duy trì giá phòng ổn định (~100-120 EUR/đêm) quanh năm.
 * **Hành vi Khách hàng**: Khách đi theo **Gia đình (Family)** có mức chi tiêu phòng (ADR) cao nhất (~150 EUR). Khách có **yêu cầu đặc biệt** có tỷ lệ hủy phòng giảm mạnh xuống từ **21.3% – 22.4%** (và dưới **17%** đối với khách có ≥3 yêu cầu, so với **33.3%** ở khách không có yêu cầu nào).
 * **4 Phân khúc Khách hàng Machine Learning (K-Means $k=4$)**:
-  * **Cluster 0: Gia đình nghỉ dưỡng cao cấp (9.3%)** — 100% có trẻ em, ADR cao nhất (~149.8 EUR), nhu cầu bãi xe cao nhất (18.8%), số yêu cầu đặc biệt cao nhất (1.12).
-  * **Cluster 1: Cặp đôi tiêu chuẩn (55.3%)** — Nhóm khách chủ lực chiếm 48.5% tổng doanh thu, đi 2 người lớn, lưu trú 2.7 đêm, đặt chủ yếu qua OTA.
-  * **Cluster 2: Khách nghỉ dưỡng dài ngày (15.8%)** — Lưu trú dài nhất (~7.9 đêm), đặt trước xa (~139.1 ngày), giá trị đơn đặt trung bình cao nhất (774.2 EUR/đơn).
+  * **Cluster 0: Gia đình nghỉ dưỡng cao cấp (9.3%)** — 100% có trẻ em, ADR cao nhất (~149.8 EUR), nhu cầu bãi xe cao nhất (18.8%), số yêu cầu đặc biệt cao nhất (1.12), đóng góp 13.7% doanh thu.
+  * **Cluster 1: Cặp đôi tiêu chuẩn (55.2%)** — Nhóm khách chủ lực chiếm 43.4% tổng doanh thu, đi 2 người lớn, lưu trú 2.7 đêm, đặt chủ yếu qua OTA (61.6%).
+  * **Cluster 2: Khách nghỉ dưỡng dài ngày (16.1%)** — Lưu trú dài nhất (~7.9 đêm), đặt trước xa (~139.1 ngày), giá trị đơn đặt trung bình cao nhất (762.4 EUR/đơn), đóng góp 33.7% tổng doanh thu.
   * **Cluster 3: Khách công tác & Khách quen (19.5%)** — Đi 1 mình (Solo), đặt gấp (`lead_time` ~36.2 ngày), tỷ lệ khách quen quay lại cao nhất (**16.5%**), chi tiêu bình quân đầu người cao nhất (77.1 EUR/người/đêm).
 
 ---
