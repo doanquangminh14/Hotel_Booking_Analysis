@@ -24,7 +24,7 @@ Tập dữ liệu chứa **119,390 bản ghi** đặt phòng từ 2 loại hình
 
 ## KẾT QUẢ & PHÁT HIỆN CHÍNH (KEY HIGHLIGHTS)
 
-* **Rủi ro Hủy phòng**: Tỷ lệ hủy phòng trung bình là **27.5%**. City Hotel có tỷ lệ hủy cao hơn Resort Hotel. Thời gian đặt trước (`lead_time`) tỷ lệ thuận với xác suất hủy (>45% đối với các đơn đặt trước trên 6 tháng).
+* **Rủi ro Hủy phòng**: Tỷ lệ hủy phòng trung bình là **27.5%**. City Hotel có tỷ lệ hủy cao hơn Resort Hotel. Thời gian đặt trước (`lead_time`) tỷ lệ thuận với xác suất hủy (đạt gần **40%** (39.7%) đối với các đơn đặt trước trên 6 tháng so với **8.4%** ở nhóm đặt sát giờ 0-7 ngày).
 * **Doanh thu & Mùa vụ**: Resort Hotel bùng nổ doanh thu vào mùa hè tháng 7-8 (ADR >150 EUR/đêm) nhưng suy giảm mạnh vào mùa đông. City Hotel duy trì giá phòng ổn định (~100-120 EUR/đêm) quanh năm.
 * **Hành vi Khách hàng**: Khách đi theo **Gia đình (Family)** có mức chi tiêu phòng (ADR) cao nhất (~150 EUR). Khách có từ **1-2 yêu cầu đặc biệt** có tỷ lệ hủy phòng giảm xuống dưới 18% (so với 32.8% ở khách không có yêu cầu).
 * **4 Phân khúc Khách hàng Machine Learning (K-Means $k=4$)**:

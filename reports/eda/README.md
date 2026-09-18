@@ -8,7 +8,7 @@ Tất cả các biểu đồ phân tích trong báo cáo được tự động k
 
 ## TÓM TẮT ĐIỀU HÀNH (EXECUTIVE SUMMARY)
 
-1. **Rủi ro Hủy phòng**: Tỷ lệ hủy phòng trung bình là **27.5%** trên toàn bộ dữ liệu sạch. City Hotel có tỷ lệ hủy cao hơn Resort Hotel. Thời gian đặt trước (`lead_time`) càng dài thì xác suất hủy càng tăng vọt (đạt >45% với đơn đặt trước trên 6 tháng).
+1. **Rủi ro Hủy phòng**: Tỷ lệ hủy phòng trung bình là **27.5%** trên toàn bộ dữ liệu sạch. City Hotel có tỷ lệ hủy cao hơn Resort Hotel. Thời gian đặt trước (`lead_time`) càng dài thì xác suất hủy càng tăng vọt (đạt **39.7%** với đơn đặt trước trên 6 tháng so với chỉ **8.4%** ở nhóm đặt sát giờ).
 2. **Biến động Mùa vụ & Doanh thu (ADR)**: Resort Hotel có tính mùa vụ cực kỳ rõ rệt, bùng nổ doanh thu vào tháng 7 và tháng 8 (ADR vượt 150 EUR/đêm), nhưng sụt giảm mạnh vào mùa đông. City Hotel duy trì mức giá ổn định quanh năm.
 3. **Chân dung & Giá trị Khách hàng**: Nhóm khách đi theo **Gia đình (Family)** mang lại giá phòng trung bình (ADR) cao nhất (~150 EUR). Ngược lại, nhóm khách có **yêu cầu đặc biệt (Special Requests)** có tỷ lệ cam kết lưu trú cao vượt trội so với khách không có yêu cầu nào.
 4. **Phân khúc Khách hàng Machine Learning (K-Means $k=4$)**: Dữ liệu phân tách thành 4 nhóm chân dung rõ nét: *Gia đình nghỉ dưỡng cao cấp*, *Khách nghỉ dưỡng dài ngày*, *Cặp đôi tiêu chuẩn* và *Khách công tác / Khách quen*.
@@ -40,9 +40,10 @@ Tất cả các biểu đồ phân tích trong báo cáo được tự động k
 ![Lead Time vs Cancellation](figures/03_lead_time_vs_cancellation.png)
 
 #### Quan sát dữ liệu:
-* Đơn đặt gấp **Last-minute (0-7 ngày)** có tỷ lệ hủy cực kỳ thấp, chỉ **11.2%**.
-* Đơn đặt trong khoảng **8-30 ngày**: Tỷ lệ hủy tăng lên **24.5%**.
-* Đơn đặt trước dài hạn **Long (91-180 ngày)** và **Ultra-long (>180 ngày)**: Tỷ lệ hủy tăng vọt lên lần lượt **38.8%** và **47.6%**.
+* Đơn đặt gấp **Last-minute (0-7 ngày)** có tỷ lệ hủy cực kỳ thấp, chỉ **8.4%**.
+* Đơn đặt trong khoảng **8-30 ngày**: Tỷ lệ hủy tăng lên **25.4%**.
+* Đơn đặt trong khoảng **31-90 ngày**: Tỷ lệ hủy là **32.0%**.
+* Đơn đặt trước dài hạn **Long (91-180 ngày)** và **Ultra-long (>180 ngày)**: Tỷ lệ hủy tăng vọt lên lần lượt **35.0%** và **39.7%**.
 
 #### Nhận xét & Insight:
 * Thời gian đặt trước tỷ lệ thuận với mức độ bất định trong kế hoạch của khách hàng. Khách đặt trước từ 3 đến 6 tháng rất dễ thay đổi lịch trình hoặc tìm thấy ưu đãi khác hấp dẫn hơn.
