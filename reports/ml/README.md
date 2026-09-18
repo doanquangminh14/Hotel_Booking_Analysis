@@ -71,9 +71,9 @@ Chúng ta đánh giá thực nghiệm số lượng cụm $k$ trong khoảng t�
 ![PCA Explained Variance](figures/02_pca_explained_variance.png)
 
 * **Thành phần chính 1 (PC1)**: Giải thích **22.4%** phương sai dữ liệu.
-* **Thành phần chính 2 (PC2)**: Giải thích **15.8%** phương sai dữ liệu.
-* **Thành phần chính 3 (PC3)**: Giải thích **12.4%** phương sai dữ liệu.
-* **Tổng tích lũy 3 PC đầu tiên**: Giải thích **50.6%** tổng biến thiên của 14 đặc trưng ban đầu, giúp biểu diễn không gian phân cụm một cách tin cậy.
+* **Thành phần chính 2 (PC2)**: Giải thích **15.7%** phương sai dữ liệu.
+* **Thành phần chính 3 (PC3)**: Giải thích **12.1%** phương sai dữ liệu.
+* **Tổng tích lũy 3 PC đầu tiên**: Giải thích **50.2%** tổng biến thiên của 14 đặc trưng ban đầu (đạt ngưỡng phân tích trên 50%), giúp biểu diễn không gian phân cụm một cách tin cậy.
 
 ### 4.2 Ma trận trọng số đặc trưng (PCA Feature Loadings)
 

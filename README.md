@@ -14,7 +14,7 @@ Tập dữ liệu chứa **119,390 bản ghi** đặt phòng từ 2 loại hình
 4. **Khai phá quy luật kinh doanh & Trực quan hóa (Business Insights & Visualizations)**: Trả lời 8 bài toán trọng tâm về tỷ lệ hủy phòng, mùa vụ giá ADR, cơ cấu đoàn khách và thị trường quốc tế.
 5. **Xây dựng mô hình Machine Learning Phân khúc Khách hàng (Customer Segmentation via K-Means & PCA)**:
    - Đánh giá lựa chọn số cụm tối ưu ($k=4$) qua 4 phương pháp kiểm định: Elbow/Inertia, Silhouette Score, Davies-Bouldin Index và Calinski-Harabasz Index.
-   - Giảm chiều không gian bằng PCA (3 thành phần chính đầu tiên giải thích 50.6% tổng phương sai dữ liệu).
+   - Giảm chiều không gian bằng PCA (3 thành phần chính đầu tiên giải thích 50.2% tổng phương sai dữ liệu).
    - Phân tích ma trận trọng số đặc trưng (PCA Loadings Matrix) để diễn giải rõ ràng ý nghĩa từng trục biến thiên.
    - Định danh 4 nhóm chân dung khách hàng (Personas) qua Radar Chart và phân tích chỉ số đóng góp doanh thu (Revenue KPIs).
    - Thiết lập kiến trúc triển khai mô hình chấm điểm thời gian thực (Real-time Scoring Flow) và cơ chế giám sát độ lệch phân phối dữ liệu (Data Drift Monitoring).
