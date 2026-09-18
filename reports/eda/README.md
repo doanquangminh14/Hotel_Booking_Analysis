@@ -119,10 +119,11 @@ Tất cả các biểu đồ phân tích trong báo cáo được tự động k
 ![Special Requests vs Cancellation](figures/06_special_requests_vs_cancellation.png)
 
 #### Quan sát dữ liệu:
-* Khách hàng **không có yêu cầu đặc biệt nào (0 request)** có tỷ lệ hủy phòng lên tới **32.8%**.
-* Khi khách có **1 yêu cầu đặc biệt**: Tỷ lệ hủy giảm mạnh xuống **20.5%**.
-* Khách có **2 yêu cầu đặc biệt**: Tỷ lệ hủy chỉ còn **17.2%**.
-* Khách có **từ 3 yêu cầu đặc biệt trở lên**: Tỷ lệ hủy duy trì ở mức rất thấp (**dưới 15%**).
+* Khách hàng **không có yêu cầu đặc biệt nào (0 request)** có tỷ lệ hủy phòng cao nhất, đạt **33.3%**.
+* Khi khách có **1 yêu cầu đặc biệt**: Tỷ lệ hủy giảm mạnh xuống **22.4%**.
+* Khách có **2 yêu cầu đặc biệt**: Tỷ lệ hủy tiếp tục giảm còn **21.3%**.
+* Khách có **3 yêu cầu đặc biệt**: Tỷ lệ hủy giảm xuống **17.1%**.
+* Khách có **4–5 yêu cầu đặc biệt**: Tỷ lệ hủy chỉ còn rất thấp từ **5.6% – 10.6%**.
 
 #### Nhận xét & Insight:
 * Số lượng yêu cầu đặc biệt (yêu cầu tầng cao, giường đôi, phòng không hút thuốc, phòng yên tĩnh...) phản ánh trực tiếp mức độ đầu tư tâm lý và cam kết thực hiện chuyến đi của khách hàng.
